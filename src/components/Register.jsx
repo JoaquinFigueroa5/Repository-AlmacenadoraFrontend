@@ -14,33 +14,30 @@ import { useRegister } from "../shared/hooks";
 import {
     Box,
     Button,
-    Checkbox,
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    Input,
     VStack,
     useColorModeValue,
     Stack,
     Heading,
     Text,
     Flex,
-    Image,
 } from "@chakra-ui/react";
 
 export const Register = ({ switchAuthHandler }) => {
     const { register, isLoading } = useRegister();
 
     const [formState, setFormState] = useState({
+
         email: {
             value: "",
             isValid: false,
             showError: false,
         },
-        username: {
+        name: {
             value: "",
             isValid: false,
-            showError: false,
+            showError: false
         },
         password: {
             value: "",
@@ -52,6 +49,23 @@ export const Register = ({ switchAuthHandler }) => {
             isValid: false,
             showError: false,
         },
+        phone: {
+            value: "",
+            isValid: false,
+            showError: false
+        },
+        surname: {
+            value: '',
+            isValid: false,
+            showError: false
+        },
+        username: {
+            value: "",
+            isValid: false,
+            showError: false,
+        }
+
+
     });
 
     const handleInputValueChange = (value, field) => {
@@ -70,8 +84,8 @@ export const Register = ({ switchAuthHandler }) => {
             case "email":
                 isValid = validateEmail(value);
                 break;
-            case "username":
-                isValid = validateUsername(value);
+            case "name":
+                isValid = true;
                 break;
             case "password":
                 isValid = validatePassword(value);
@@ -79,6 +93,17 @@ export const Register = ({ switchAuthHandler }) => {
             case "passwordConfir":
                 isValid = validateConfirPassword(formState.password.value, value);
                 break;
+            case "phone":
+                isValid = true;
+                break;
+            case "surname":
+                isValid = true;
+                break;
+            case "username":
+                isValid = validateUsername(value);
+                break;
+
+
             default:
                 break;
         }
@@ -91,24 +116,31 @@ export const Register = ({ switchAuthHandler }) => {
             },
         }));
 
-        
+
     };
 
     const handleRegister = (e) => {
         e.preventDefault();
         register(
             formState.email.value,
+            formState.name.value,
             formState.password.value,
+            formState.phone.value,
+            formState.surname.value,
             formState.username.value
+
         );
     };
 
     const isSubmitButtonDisabled =
         isLoading ||
         !formState.email.isValid ||
+        !formState.name.isValid ||
         !formState.password.isValid ||
-        !formState.passwordConfir.isValid ||
-        !formState.username.isValid;
+        !formState.phone.isValid ||
+        !formState.surname.isValid ||
+        !formState.username.isValid ||
+        !formState.passwordConfir.isValid
 
     const formBackground = useColorModeValue("white", "gray.700");
     const labelColor = useColorModeValue("gray.700", "gray.200");
@@ -152,19 +184,28 @@ export const Register = ({ switchAuthHandler }) => {
                                 <FormControl>
                                     <FormLabel color={labelColor}></FormLabel>
                                     <CustomInput
-                                        // type="text"
-                                        // placeholder="Name"
-                                        // bg={inputBackground}
-                                        // value={name}
-                                        // onChange={handleNameChange}
-                                        field='email'
-                                        label='Email'
-                                        value={formState.email.value}
+                                        field='name'
+                                        label='Name'
+                                        value={formState.name.value}
                                         onChangeHandler={handleInputValueChange}
                                         type='text'
                                         onBlurHandler={handleInputValidationOnBlur}
-                                        showErrorMessage={formState.email.showError}
-                                        validationMessage={emailValidationMessage}
+                                        showErrorMessage={formState.name.showError}
+                                        validationMessage={""}
+                                    />
+                                </FormControl>
+
+                                <FormControl>
+                                    <FormLabel color={labelColor}></FormLabel>
+                                    <CustomInput
+                                        field='surname'
+                                        label='Lastname'
+                                        value={formState.surname.value}
+                                        onChangeHandler={handleInputValueChange}
+                                        type='text'
+                                        onBlurHandler={handleInputValidationOnBlur}
+                                        showErrorMessage={formState.surname.showError}
+                                        validationMessage={''}
                                     />
                                 </FormControl>
 
@@ -181,12 +222,40 @@ export const Register = ({ switchAuthHandler }) => {
                                         validationMessage={validateUsernameMessage}
                                     />
                                 </FormControl>
-                                
+
+                                <FormControl>
+                                    <FormLabel color={labelColor}></FormLabel>
+                                    <CustomInput
+                                        field='phone'
+                                        label='Phone'
+                                        value={formState.phone.value}
+                                        onChangeHandler={handleInputValueChange}
+                                        type='text'
+                                        onBlurHandler={handleInputValidationOnBlur}
+                                        showErrorMessage={formState.phone.showError}
+                                        validationMessage={''}
+                                    />
+                                </FormControl>
+
+                                <FormControl>
+                                    <FormLabel color={labelColor}></FormLabel>
+                                    <CustomInput
+                                        field='email'
+                                        label='Email'
+                                        value={formState.email.value}
+                                        onChangeHandler={handleInputValueChange}
+                                        type='text'
+                                        onBlurHandler={handleInputValidationOnBlur}
+                                        showErrorMessage={formState.email.showError}
+                                        validationMessage={emailValidationMessage}
+                                    />
+                                </FormControl>
+
                                 <FormControl>
                                     <FormLabel color={labelColor}></FormLabel>
                                     <CustomInput
                                         field='password'
-                                        label='New Password'
+                                        label='Password'
                                         value={formState.password.value}
                                         onChangeHandler={handleInputValueChange}
                                         type='password'
@@ -195,11 +264,11 @@ export const Register = ({ switchAuthHandler }) => {
                                         validationMessage={validatePasswordMessage}
                                     />
                                 </FormControl>
-                                
+
                                 <FormControl>
                                     <FormLabel color={labelColor}></FormLabel>
                                     <CustomInput
-                                        field='newPassowrd'
+                                        field='passwordConfir'
                                         label='Confirm Password'
                                         value={formState.passwordConfir.value}
                                         onChangeHandler={handleInputValueChange}
