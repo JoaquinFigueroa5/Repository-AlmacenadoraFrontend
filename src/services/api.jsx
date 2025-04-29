@@ -42,3 +42,12 @@ export const register = async(data) => {
         }
     }
 }
+
+export const getProducts = async () => {
+    try {
+        return await apiClient.get('/products')
+    } catch (e) {
+        error: true,
+        e
+    }
+}
