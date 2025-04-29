@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Login } from '../components/Login'
+import { Register } from '../components/Register'
 import { Box } from '@chakra-ui/react'
 
 export const Auth = () => {
@@ -14,7 +15,7 @@ export const Auth = () => {
             {isLogin ? (
                 <Login switchAuthHandler={handleAuthPageToggle}/>
             ) : (
-                <Login switchAuthHandler={handleAuthPageToggle} />
+                <Register switchAuthHandler={handleAuthPageToggle} />
             )}
         </Box>
     )

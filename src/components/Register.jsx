@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { CustomInput } from "./Input";
-import { useLogin } from "../shared/hooks";
 import {
-    emailValidationMessage,
+    validateUsername,
     validateEmail,
     validatePassword,
-    validatePasswordMessage
-} from '../shared/validators'
+    validateConfirPassword,
+    validateUsernameMessage,
+    emailValidationMessage,
+    validatePasswordMessage,
+    passwordConfirmationMessage,
+} from "../shared/validators";
+import { useRegister } from "../shared/hooks";
 import {
     Box,
     Button,
@@ -14,17 +18,18 @@ import {
     FormControl,
     FormLabel,
     FormErrorMessage,
+    Input,
     VStack,
     useColorModeValue,
     Stack,
     Heading,
     Text,
     Flex,
-    Image
+    Image,
 } from "@chakra-ui/react";
 
-export const Login = ({ switchAuthHandler }) => {
-    const { login, isLoading } = useLogin();
+export const Register = ({ switchAuthHandler }) => {
+    const { register, isLoading } = useRegister();
 
     const [formState, setFormState] = useState({
         email: {
@@ -32,7 +37,17 @@ export const Login = ({ switchAuthHandler }) => {
             isValid: false,
             showError: false,
         },
+        username: {
+            value: "",
+            isValid: false,
+            showError: false,
+        },
         password: {
+            value: "",
+            isValid: false,
+            showError: false,
+        },
+        passwordConfir: {
             value: "",
             isValid: false,
             showError: false,
@@ -52,11 +67,17 @@ export const Login = ({ switchAuthHandler }) => {
     const handleInputValidationOnBlur = (value, field) => {
         let isValid = false;
         switch (field) {
-            case 'email':
+            case "email":
                 isValid = validateEmail(value);
                 break;
-            case 'password':
+            case "username":
+                isValid = validateUsername(value);
+                break;
+            case "password":
                 isValid = validatePassword(value);
+                break;
+            case "passwordConfir":
+                isValid = validateConfirPassword(formState.password.value, value);
                 break;
             default:
                 break;
@@ -66,24 +87,32 @@ export const Login = ({ switchAuthHandler }) => {
             [field]: {
                 ...prevState[field],
                 isValid,
-                showError: !isValid
-            }
-        }))
-    }
+                showError: !isValid,
+            },
+        }));
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        login(formState.email.value, formState.password.value);
+        
     };
 
-    const isSubmitButtonDisabled = isLoading || !formState.email.isValid || !formState.password.isValid;
+    const handleRegister = (e) => {
+        e.preventDefault();
+        register(
+            formState.email.value,
+            formState.password.value,
+            formState.username.value
+        );
+    };
 
+    const isSubmitButtonDisabled =
+        isLoading ||
+        !formState.email.isValid ||
+        !formState.password.isValid ||
+        !formState.passwordConfir.isValid ||
+        !formState.username.isValid;
 
     const formBackground = useColorModeValue("white", "gray.700");
     const labelColor = useColorModeValue("gray.700", "gray.200");
     const buttonColor = useColorModeValue("red.500", "red.800");
-
-
 
     return (
         <Flex
@@ -112,7 +141,7 @@ export const Login = ({ switchAuthHandler }) => {
                     <Stack spacing={4}>
                         <Stack align="center">
                             <Heading fontSize="3xl" textAlign="center">
-                                Sign in
+                                Sign up
                             </Heading>
                             <Text fontSize="lg" color="white.600">
 
@@ -142,14 +171,42 @@ export const Login = ({ switchAuthHandler }) => {
                                 <FormControl>
                                     <FormLabel color={labelColor}></FormLabel>
                                     <CustomInput
+                                        field='username'
+                                        label='Username'
+                                        value={formState.username.value}
+                                        onChangeHandler={handleInputValueChange}
+                                        type='text'
+                                        onBlurHandler={handleInputValidationOnBlur}
+                                        showErrorMessage={formState.username.showError}
+                                        validationMessage={validateUsernameMessage}
+                                    />
+                                </FormControl>
+                                
+                                <FormControl>
+                                    <FormLabel color={labelColor}></FormLabel>
+                                    <CustomInput
                                         field='password'
-                                        label='Password'
+                                        label='New Password'
                                         value={formState.password.value}
                                         onChangeHandler={handleInputValueChange}
                                         type='password'
                                         onBlurHandler={handleInputValidationOnBlur}
                                         showErrorMessage={formState.password.showError}
                                         validationMessage={validatePasswordMessage}
+                                    />
+                                </FormControl>
+                                
+                                <FormControl>
+                                    <FormLabel color={labelColor}></FormLabel>
+                                    <CustomInput
+                                        field='newPassowrd'
+                                        label='Confirm Password'
+                                        value={formState.passwordConfir.value}
+                                        onChangeHandler={handleInputValueChange}
+                                        type='password'
+                                        onBlurHandler={handleInputValidationOnBlur}
+                                        showErrorMessage={formState.passwordConfir.showError}
+                                        validationMessage={passwordConfirmationMessage}
                                     />
                                 </FormControl>
                                 <Button
@@ -159,14 +216,14 @@ export const Login = ({ switchAuthHandler }) => {
                                     width="full"
                                     type="submit"
                                     isDisabled={isSubmitButtonDisabled}
-                                    onClick={handleLogin}
+                                    onClick={handleRegister}
                                 >
                                     Sign Up
                                 </Button>
                             </VStack>
                         </form>
                         <Text textAlign="center">
-                            Don't have an account?{" "}
+                            Already have an account{" "}
                             <Box
                                 as="span"
                                 fontWeight="bold"
@@ -174,7 +231,7 @@ export const Login = ({ switchAuthHandler }) => {
                                 cursor="pointer"
                                 onClick={switchAuthHandler}
                             >
-                                Sign Up
+                                Sign In
                             </Box>
                         </Text>
 
