@@ -3,6 +3,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { Toaster } from 'react-hot-toast';
 import NavBar from './components/NavBar';
 import routes from './Routes';
+import theme from './resources/index'
 
 function App() {
 
@@ -10,7 +11,7 @@ function App() {
 
   return (
     <>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         {/* <NavBar /> */}
         {element}
         <Toaster
