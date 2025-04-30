@@ -17,8 +17,10 @@ export const Stats = () => {
             </GridItem>
             <GridItem>
                 <ProductList />
+               
             </GridItem>
         </Grid>
+        
         
     </Box>
   )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BarChart,
   Bar,
@@ -9,26 +9,51 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-
-const data = [
-  { name: 'Google', value: 12 },
-  { name: 'Direct', value: 10 },
-  { name: 'Bing', value: 20 },
-  { name: 'Yahoo', value: 25},
-  { name: 'ChatGPT', value: 13},
-];
+import { useProducts } from "../shared/hooks";
+import { Heading } from '@chakra-ui/react';
 
 const BarListComponent = () => {
+  const { products, getProducts, isFetching } = useProducts();
+  const [chartData, setChartData] = useState([]);
+
+  // Llamamos a getProducts cuando el componente se monta
+  useEffect(() => {
+    if (!products && !isFetching) { // Solo obtener los productos si no han sido obtenidos ya
+      getProducts(); // Cargamos los productos
+    }
+  }, [getProducts, products, isFetching]);
+
+  useEffect(() => {
+    if (products) {
+      const filteredData = products.map((product) => ({
+        name: product.name,
+        sales: product.sales,
+      }));
+      setChartData(filteredData);
+    }
+  }, [products]);
+
+  if (isFetching) {
+    return (
+      <div style={{ width: '100vh', height: '50vh' }}>
+        <ResponsiveContainer>
+          <BarChart data={[]} />
+        </ResponsiveContainer>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ width: '100vh', height: '50vh' }}> {/* 50% de la altura de la ventana */}
+    <div style={{ width: '100vh', height: '50vh' }}>
+      <Heading as={'h2'}>Ventas por Producto</Heading>
       <ResponsiveContainer>
-        <BarChart data={data}>
+        <BarChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="value" fill="#A8C0BA" />
+          <Bar dataKey="sales" fill="#A8C0BA" />
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -36,3 +61,5 @@ const BarListComponent = () => {
 };
 
 export default BarListComponent;
+
+

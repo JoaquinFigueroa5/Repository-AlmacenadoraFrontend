@@ -42,3 +42,36 @@ export const register = async(data) => {
         }
     }
 }
+
+export const getProducts = async() => {
+    try {
+        return await apiClient.get('/products/')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getStats = async() => {
+    try {
+        return await apiClient.get('/products/Stats')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getPercentage = async() => {
+    try {
+        return await apiClient.get('/products/percentage')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
