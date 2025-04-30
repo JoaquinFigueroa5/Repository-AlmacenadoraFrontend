@@ -63,12 +63,6 @@ export default function NavBar() {
 
   const bgColor = useColorModeValue("gray.100", "gray.900");
 
-  // const {
-  //   isOpen: isAccountOpen,
-  //   onOpen: onAccountOpen,
-  //   onClose: onAccountClose
-  // } = useDisclosure();
-
   const [avatarURL, setAvatarURL] = useState();
 
   useEffect(() => {
@@ -163,7 +157,6 @@ export default function NavBar() {
                 <MenuItem >Account Settings</MenuItem>
                 <MenuItem onClick={handleLogout} >Logout</MenuItem>
               </MenuList>
-              {/* <UserSettings /> */}
             </Menu>
           </Stack>
         </Flex>

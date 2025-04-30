@@ -24,7 +24,12 @@ export const useLogin = () => {
         setIsLoading(false)
 
         if(response.error){
-            return toast.error(response.error?.response?.data || 'Ocurrio un error al iniciar sesión, usuario no encontrado')
+            return toast.error(response.error?.response?.data || 'Ocurrio un error al iniciar sesión, usuario no encontrado', {
+                style: {
+                    background: 'red',
+                    color: 'white'
+                }
+            })
         }
 
         const { userDetails } = response.data
@@ -33,7 +38,12 @@ export const useLogin = () => {
         refreshUser();
         
 
-        toast.success('Sesion iniciada correctamente')
+        toast.success('Sesion iniciada correctamente', {
+            style: {
+                background: 'green',
+                color: 'white'
+            }
+        })
 
         navigate('/dashboard')
     }

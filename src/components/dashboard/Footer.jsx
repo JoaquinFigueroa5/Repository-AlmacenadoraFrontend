@@ -49,7 +49,7 @@ const SocialButton = ({ children, label, href }) => {
 export default function Footer() {
   return (
     <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
+      bg={useColorModeValue('gray.100', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
     >
       <Container as={Stack} maxW={'6xl'} py={10} align={'flex-end'} >
@@ -117,7 +117,7 @@ export default function Footer() {
           justify={{ md: 'space-between' }}
           align={{ md: 'center' }}
         >
-          <Text>© 2022 Chakra Templates. All rights reserved</Text>
+          <Text>© 2025 Almacenadora JPLRLP. All rights reserved</Text>
           <Stack direction={'row'} spacing={6}>
             <SocialButton label={'Twitter'} href={'#'}>
               <FaTwitter />

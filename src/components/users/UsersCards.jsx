@@ -11,8 +11,11 @@ import {
     Stack,
     Button,
     useColorModeValue,
+    useDisclosure
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { UsersModify } from './UserModify'
 
 export const UsersCards = ({
     id,
@@ -24,10 +27,20 @@ export const UsersCards = ({
     role,
     navigateToUserHandler
 }) => {
+    
     const handleNavigate = () => {
         navigateToUserHandler(id)
     }
+
+    const navigate = useNavigate();
+    
     const [avatarURL, setAvatarURL] = useState();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const handleNavigateToSettingPage = () => {
+        navigate(<UsersModify/>)
+    }
 
     const imageSeed = id || Math.floor(Math.random() * 1000);
 
@@ -51,7 +64,7 @@ export const UsersCards = ({
                 boxShadow={'2xl'}
                 rounded={'md'}
                 overflow={'hidden'}
-                >
+            >
                 <Image
                     h={'120px'}
                     w={'full'}
@@ -100,10 +113,13 @@ export const UsersCards = ({
                         bg={useColorModeValue('#151f21', 'gray.900')}
                         color={'white'}
                         rounded={'md'}
+                        onClick={handleNavigateToSettingPage}
                         _hover={{
                             transform: 'translateY(-2px)',
                             boxShadow: 'lg',
-                        }}>
+                        }}
+
+                    >
                         Modify
                     </Button>
                 </Box>

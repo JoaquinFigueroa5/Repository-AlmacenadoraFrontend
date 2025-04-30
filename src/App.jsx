@@ -19,7 +19,7 @@ function App() {
           {element}
         </Suspense>
         <Toaster
-          position='bottom-right'
+          position='bottom-top-center'
           reverseOrder={false}
         />
       </ChakraProvider>
