@@ -16,7 +16,6 @@ import {
     Button,
     FormControl,
     FormLabel,
-    VStack,
     useColorModeValue,
     Stack,
     Heading,
@@ -240,7 +239,6 @@ export const Register = ({ switchAuthHandler }) => {
                                     />
                                 </FormControl>
 
-                                {/* Email centrado y ocupando ambas columnas */}
                                 <GridItem colSpan={2}>
                                     <FormControl textAlign="center">
                                         <FormLabel color={labelColor}></FormLabel>

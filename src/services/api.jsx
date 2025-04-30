@@ -43,3 +43,34 @@ export const register = async(data) => {
         }
     }
 }
+
+export const updateUser = async(userId) => {
+    try {
+        return await apiClient.put(`/users/${userId}`)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getUsers = async() => {
+    try {
+        return await apiClient.get('/users')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+
+const checkResponseStatus = (e) => {
+    const responseStatus = e?.response?.status
+
+    if(responseStatus){
+        (responseStatus === 401 || responseStatus === 403) && logout()
+    }
+}

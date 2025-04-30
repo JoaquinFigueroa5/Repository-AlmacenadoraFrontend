@@ -17,12 +17,17 @@ import {
   Center,
   Text,
   HStack,
-  Image,
+  Image
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { UserContext } from "../context/UserContext";
+import { logout } from "../shared/hooks";
+// import { UserSettings } from "./UserSettings";
 
 const NavLink = ({ children, to }) => {
+  const navLinkHover = useColorModeValue("gray.200", "gray.700");
   return (
     <Box
       as="div"
@@ -31,7 +36,7 @@ const NavLink = ({ children, to }) => {
       rounded={"md"}
       _hover={{
         textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
+        bg: navLinkHover,
       }}
     >
       <Link to={to}>{children}</Link>
@@ -41,7 +46,7 @@ const NavLink = ({ children, to }) => {
 
 const NavLogo = () => {
   return (
-    <Image 
+    <Image
       src="https://www.svgrepo.com/show/520503/quiz.svg"
       boxSize="50px"
       borderRadius="full"
@@ -51,11 +56,43 @@ const NavLogo = () => {
   )
 }
 
+
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { user, refreshUser } = useContext(UserContext);
+
+  const bgColor = useColorModeValue("gray.100", "gray.900");
+
+  // const {
+  //   isOpen: isAccountOpen,
+  //   onOpen: onAccountOpen,
+  //   onClose: onAccountClose
+  // } = useDisclosure();
+
+  const [avatarURL, setAvatarURL] = useState();
+
+  useEffect(() => {
+    const profilePicturaFecth = async () => {
+      const response = await fetch('https://randomuser.me/api/');
+      const data = await response.json();
+      const profilePicUrl = data.results[0].picture.large;
+      setAvatarURL(profilePicUrl);
+    };
+
+    profilePicturaFecth();
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    refreshUser();
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
-    <Box bg={useColorModeValue("gray.100", "gray.900")} w="100%">
+    <Box bg={bgColor} w="100%">
       <Flex
         maxW="auto"
         mx="auto"
@@ -66,14 +103,24 @@ export default function NavBar() {
       >
         <HStack spacing={8} alignItems={"center"}>
           <NavLogo />
-          <Box fontWeight="bold" fontSize="xl">
-            Almacenadora
-          </Box>
-          <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>
-            <NavLink to="/dashboard">DashBoard</NavLink>
-            <NavLink to="/projects">Projects</NavLink>
-            <NavLink to="/team">Team</NavLink>
-          </HStack>
+          <Link to={'/dashboard'} >
+            <Box fontWeight="bold" fontSize="xl">
+              Almacenadora
+            </Box>
+          </Link>
+          {user.role === 'ADMIN_ROLE' ? (
+            <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>
+              <NavLink to="/users">Users</NavLink>
+              <NavLink to="/projects">Products</NavLink>
+              <NavLink to="/team">Movements</NavLink>
+              <NavLink to="/team">Information</NavLink>
+            </HStack>
+          ) : (
+            <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>
+              <NavLink to="/dashboard">Movements</NavLink>
+              <NavLink to="/dashboard">Clients</NavLink>
+            </HStack>
+          )}
         </HStack>
 
         <Flex alignItems={"center"}>
@@ -93,7 +140,7 @@ export default function NavBar() {
                 <Avatar
                   size={"sm"}
                   src={
-                    ""
+                    avatarURL
                   }
                 />
               </MenuButton>
@@ -103,22 +150,20 @@ export default function NavBar() {
                   <Avatar
                     size={"2xl"}
                     src={
-                      ""
+                      avatarURL
                     }
                   />
                 </Center>
                 <br />
                 <Center>
-                  <Text fontWeight="bold" pr='5%' pl='5%'>Name</Text>
+                  <Text fontWeight="bold" pr='5%' pl='5%'>{user.username}</Text>
                 </Center>
                 <br />
                 <MenuDivider />
-                <MenuItem>Your Servers</MenuItem>
-                <MenuItem>Account Settings</MenuItem>
-                <Link to='/'>
-                  <MenuItem>Logout</MenuItem>
-                </Link>
+                <MenuItem >Account Settings</MenuItem>
+                <MenuItem onClick={handleLogout} >Logout</MenuItem>
               </MenuList>
+              {/* <UserSettings /> */}
             </Menu>
           </Stack>
         </Flex>
