@@ -5,12 +5,14 @@ const apiClient = axios.create({
     timeout: 5000
 })
 
+
 apiClient.interceptors.request.use(
     (config) => {
         const useUserDetails = localStorage.getItem('user');
 
         if(useUserDetails){
             const token = JSON.parse(useUserDetails).token
+            console.log(token);
             config.headers.Authorization = `Bearer ${token}`
         }
 
@@ -69,6 +71,36 @@ export const getPercentage = async() => {
     try {
         return await apiClient.get('/products/percentage')
     } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getMovimientos = async() => {
+    try {
+        return await apiClient.get('/movements/')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getMovimientoEntrada = async (data) => {
+    try {
+      return await apiClient.post('/movements/registerEntry', data);
+    } catch (e) {
+      return { error: true, e };
+    }
+  };
+  
+export const getMovimientoSalida = async() => {
+    try{
+        return await apiClient.post('/movements/registerOutput')
+    }catch(e){
         return {
             error: true,
             e

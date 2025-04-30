@@ -30,7 +30,7 @@ export const useLogin = () => {
 
         toast.success('Sesion iniciada correctamente')
 
-        navigate('/')
+        navigate('/movimientos')
     }
     return {
         login,
