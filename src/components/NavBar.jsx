@@ -70,7 +70,7 @@ export default function NavBar() {
             Almacenadora
           </Box>
           <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>
-            <NavLink to="/dashboard">DashBoard</NavLink>
+            <NavLink to="/products" >Products</NavLink>
             <NavLink to="/projects">Projects</NavLink>
             <NavLink to="/team">Team</NavLink>
           </HStack>

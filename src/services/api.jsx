@@ -48,7 +48,9 @@ export const getProducts = async () => {
     try {
         return await apiClient.get('/products')
     } catch (e) {
-        error: true,
-        e
+        return{
+            error: true,
+            e
+        }
     }
 }
