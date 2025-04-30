@@ -10,9 +10,10 @@ import {
   VisuallyHidden,
   chakra,
   useColorModeValue,
+  Image,
+  Flex,
 } from '@chakra-ui/react'
 import { FaTwitter, FaYoutube, FaInstagram } from 'react-icons/fa'
-
 
 const ListHeader = ({ children }) => {
   return (
@@ -52,55 +53,47 @@ export default function Footer() {
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
     >
-      <Container as={Stack} maxW={'6xl'} py={10} align={'flex-end'} >
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
-            
-          <Stack align={'flex-start'}>
-            <ListHeader>Company</ListHeader>
-            <Box as="a" href={'#'}>
-              About Us
-            </Box>
-            <Box as="a" href={'#'}>
-              Blog
-            </Box>
-            <Box as="a" href={'#'}>
-              Careers
-            </Box>
-            <Box as="a" href={'#'}>
-              Contact Us
-            </Box>
-          </Stack>
+      <Container maxW={'6xl'} py={10}>
+        <Flex direction={{ base: 'column', md: 'row' }} align="center" justify="space-between" gap={10}>
+          {/* Imagen a la izquierda */}
+          <Box flex="1" display="flex" justifyContent="flex-start">
+            <Image
+              src="https://png.pngtree.com/png-vector/20240528/ourmid/pngtree-warehouse-flat-composition-png-image_12506935.png"
+              boxSize="250px"
+              objectFit="contain"
+            />
+          </Box>
 
-          <Stack align={'flex-start'}>
-            <ListHeader>Support</ListHeader>
-            <Box as="a" href={'#'}>
-              Help Center
-            </Box>
-            <Box as="a" href={'#'}>
-              Safety Center
-            </Box>
-            <Box as="a" href={'#'}>
-              Community Guidelines
-            </Box>
-          </Stack>
+          {/* Contenido de columnas */}
+          <Box flex="3" w="full">
+            <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={8}>
+              <Stack align={'flex-start'}>
+                <ListHeader>Company</ListHeader>
+                <Box as="a" href={'#'}>Joaquin Figueroa</Box>
+                <Box as="a" href={'#'}>Jorge Peralta</Box>
+                <Box as="a" href={'#'}>Lisandro Jimenez</Box>
+                <Box as="a" href={'#'}>Robbin Sisimit</Box>
+                <Box as="a" href={'#'}>Luis De Leon</Box>
+                <Box as="a" href={'#'}>Luis Pichiya</Box>
+              </Stack>
 
-          <Stack align={'flex-start'}>
-            <ListHeader>Legal</ListHeader>
-            <Box as="a" href={'#'}>
-              Cookies Policy
-            </Box>
-            <Box as="a" href={'#'}>
-              Privacy Policy
-            </Box>
-            <Box as="a" href={'#'}>
-              Terms of Service
-            </Box>
-            <Box as="a" href={'#'}>
-              Law Enforcement
-            </Box>
-          </Stack>
+              <Stack align={'flex-start'}>
+                <ListHeader>Support</ListHeader>
+                <Box as="a" href={'#'}>Help Center</Box>
+                <Box as="a" href={'#'}>Safety Center</Box>
+                <Box as="a" href={'#'}>Community Guidelines</Box>
+              </Stack>
 
-        </SimpleGrid>
+              <Stack align={'flex-start'}>
+                <ListHeader>Legal</ListHeader>
+                <Box as="a" href={'#'}>Cookies Policy</Box>
+                <Box as="a" href={'#'}>Privacy Policy</Box>
+                <Box as="a" href={'#'}>Terms of Service</Box>
+                <Box as="a" href={'#'}>Law Enforcement</Box>
+              </Stack>
+            </SimpleGrid>
+          </Box>
+        </Flex>
       </Container>
 
       <Box
@@ -117,7 +110,7 @@ export default function Footer() {
           justify={{ md: 'space-between' }}
           align={{ md: 'center' }}
         >
-          <Text>© 2022 Chakra Templates. All rights reserved</Text>
+          <Text>© 2025 Tu Empresa. Todos los derechos reservados</Text>
           <Stack direction={'row'} spacing={6}>
             <SocialButton label={'Twitter'} href={'#'}>
               <FaTwitter />
