@@ -22,6 +22,9 @@ import {
     Heading,
     Text,
     Flex,
+    SimpleGrid,
+    GridItem
+    
 } from "@chakra-ui/react";
 
 export const Register = ({ switchAuthHandler }) => {
@@ -167,7 +170,7 @@ export const Register = ({ switchAuthHandler }) => {
                     p={8}
                     borderRadius="md"
                     boxShadow="dark-lg"
-                    maxW="md"
+                    maxW="2xl"
                     w="full"
                 >
                     <Stack spacing={4}>
@@ -180,7 +183,7 @@ export const Register = ({ switchAuthHandler }) => {
                             </Text>
                         </Stack>
                         <form>
-                            <VStack spacing={4}>
+                            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} w="full">
                                 <FormControl>
                                     <FormLabel color={labelColor}></FormLabel>
                                     <CustomInput
@@ -237,19 +240,22 @@ export const Register = ({ switchAuthHandler }) => {
                                     />
                                 </FormControl>
 
-                                <FormControl>
-                                    <FormLabel color={labelColor}></FormLabel>
-                                    <CustomInput
-                                        field='email'
-                                        label='Email'
-                                        value={formState.email.value}
-                                        onChangeHandler={handleInputValueChange}
-                                        type='text'
-                                        onBlurHandler={handleInputValidationOnBlur}
-                                        showErrorMessage={formState.email.showError}
-                                        validationMessage={emailValidationMessage}
-                                    />
-                                </FormControl>
+                                {/* Email centrado y ocupando ambas columnas */}
+                                <GridItem colSpan={2}>
+                                    <FormControl textAlign="center">
+                                        <FormLabel color={labelColor}></FormLabel>
+                                        <CustomInput
+                                            field='email'
+                                            label='Email'
+                                            value={formState.email.value}
+                                            onChangeHandler={handleInputValueChange}
+                                            type='text'
+                                            onBlurHandler={handleInputValidationOnBlur}
+                                            showErrorMessage={formState.email.showError}
+                                            validationMessage={emailValidationMessage}
+                                        />
+                                    </FormControl>
+                                </GridItem>
 
                                 <FormControl>
                                     <FormLabel color={labelColor}></FormLabel>
@@ -278,19 +284,23 @@ export const Register = ({ switchAuthHandler }) => {
                                         validationMessage={passwordConfirmationMessage}
                                     />
                                 </FormControl>
+                            </SimpleGrid>
+
+                            <Flex justify="center" mt={4}>
                                 <Button
                                     bg={buttonColor}
                                     color="white"
                                     _hover={{ bg: "red.700" }}
-                                    width="full"
+                                    width="500px"
                                     type="submit"
                                     isDisabled={isSubmitButtonDisabled}
                                     onClick={handleRegister}
                                 >
                                     Sign Up
                                 </Button>
-                            </VStack>
+                            </Flex>
                         </form>
+
                         <Text textAlign="center">
                             Already have an account{" "}
                             <Box

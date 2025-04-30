@@ -156,7 +156,7 @@ export const Login = ({ switchAuthHandler }) => {
                                     bg={buttonColor}
                                     color="white"
                                     _hover={{ bg: "red.700" }}
-                                    width="full"
+                                    width="400px"
                                     type="submit"
                                     isDisabled={isSubmitButtonDisabled}
                                     onClick={handleLogin}

@@ -108,7 +108,7 @@ export default function Carousel() {
                 direction={{ base: 'column', md: 'row' }}
                 spacing={6}
                 w="full"
-                maxW="6xl" // Expandir el tamaño del contenedor
+                maxW="6xl"
                 position="absolute"
                 top="50%"
                 transform="translate(0, -50%)"
