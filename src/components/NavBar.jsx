@@ -150,7 +150,7 @@ export default function NavBar() {
                 </Center>
                 <br />
                 <Center>
-                  <Text fontWeight="bold" pr='5%' pl='5%'>{user.username}</Text>
+                  <Text fontWeight="bold" pr='5%' pl='5%'>{user.username} <br /> {user.email} </Text>
                 </Center>
                 <br />
                 <MenuDivider />

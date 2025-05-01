@@ -11,7 +11,7 @@ apiClient.interceptors.request.use(
 
         if(useUserDetails){
             const token = JSON.parse(useUserDetails).token
-            config.headers.Authorization = `Bearer ${token}`
+            config.headers['x-token'] = token
         }
 
         return config;
@@ -34,7 +34,6 @@ export const login = async(data) => {
 
 export const register = async(data) => {
     try {
-        console.log(data);
         return await apiClient.post('/auth/register', data)
     } catch (e) {
         return {
@@ -44,9 +43,23 @@ export const register = async(data) => {
     }
 }
 
-export const updateUser = async(userId) => {
+export const updateUser = async (userId, data) => {
     try {
-        return await apiClient.put(`/users/${userId}`)
+        const response = await apiClient.put(`/users/${userId}`, data);
+        return response;
+    } catch (e) {
+        return {
+            error: true,
+            e
+        };
+    }
+}
+
+
+
+export const getUsers = async() => {
+    try {
+        return await apiClient.get('/users')
     } catch (e) {
         return {
             error: true,
@@ -55,9 +68,22 @@ export const updateUser = async(userId) => {
     }
 }
 
-export const getUsers = async() => {
+export const getUserById = async(id) => {
     try {
-        return await apiClient.get('/users')
+        const response = await apiClient.get(`/users/${id}`)
+        return response.data
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const deleteUser = async(userId) => {
+    try {
+        return await apiClient.delete(`/users/${userId}`)
+
     } catch (e) {
         return {
             error: true,

@@ -1,189 +1,122 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-    validateUsername,
-    validateUsernameMessage,
-    validateEmail,
-    emailValidationMessage,
-    validatePasswordMessage,
-    validatePassword
-} from "../../shared/validators"
-import { CustomInput } from "../Input";
-import { useDisclosure } from "@chakra-ui/react";
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    Button,
+    FormControl,
+    FormLabel,
+    Input,
+    SimpleGrid,
+    useDisclosure,
+    AlertDialog,
+    AlertDialogOverlay,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogBody,
+    AlertDialogFooter,
+    Select
+} from "@chakra-ui/react";
+import { useRef } from "react";
 
-const inputs = [
-    {
-        field: 'name',
-        label: 'Name',
-        validationMessage: '',
-        type: 'text'
-    },
-    {
-        field: 'surname',
-        label: 'Lastname',
-        validationMessage: '',
-        type: 'text'
-    },
-    {
-        field: 'username',
-        label: 'Username',
-        validationMessage: validateUsernameMessage,
-        type: 'text'
-    },
-    {
-        field: 'phone',
-        label: 'Phone',
-        validationMessage: '',
-        type: 'text'
-    },
-    {
-        field: 'email',
-        label: 'Email',
-        validationMessage: emailValidationMessage,
-        type: 'text'
-    },
-    {
-        field: 'password',
-        label: 'Password',
-        validationMessage: validatePasswordMessage
-    }
-]
+export const UsersModify = ({ isOpen, onClose, settings, saveSettings, deleteSettings }) => {
+    const [formState, setFormState] = useState(settings);
 
-export const UsersModify = ({ settings, saveSettings }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const {
+        isOpen: isAlertOpen,
+        onOpen: onAlertOpen,
+        onClose: onAlertClose
+    } = useDisclosure();
 
-    const [formState, setFormState] = useState({
-        name: {
-            isValid: true,
-            showError: false,
-            value: settings.name
-        },
-        surname: {
-            isValid: true,
-            showError: false,
-            value: settings.surname
-        },
-        username: {
-            isValid: validateUsername(settings.username),
-            showError: false,
-            value: settings.username
-        },
-        phone: {
-            isValid: true,
-            showError: false,
-            value: settings.phone
-        },
-        email: {
-            isValid: validateEmail(settings.email),
-            showError: true,
-            value: settings.email
-        },
-        password: {
-            isValid: validatePassword(settings.password),
-            showError: true,
-            value: settings.password
-        }
-    })
+    const cancelRef = useRef();
 
-    const handleInputValueChange = (value, field) => {
-        setFormState((prevState) => ({
-            ...prevState,
-            [field]: {
-                ...prevState[field],
-                value
-            }
-        }))
-    }
+    useEffect(() => {
+        setFormState(settings);
+    }, [settings]);
 
-    const handleInputValidationOnBlur = (value, field) => {
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormState((prev) => ({ ...prev, [name]: value }));
+    };
 
-        let isValid = false
+    const handleSave = () => {
+        saveSettings(formState);
+    };
 
-        switch (field) {
-            case 'name':
-                isValid = true
-                break
-            case 'surname':
-                isValid = true
-                break
-            case 'username':
-                isValid = validateUsername(value)
-                break
-            case 'phone':
-                isValid = true
-                break
-            case 'email':
-                isValid = validateEmail(value)
-                break
-            case 'password':
-                isValid = validatePassword(value)
-                break
-            default:
-                break;
-        }
-        setFormState((prevState) => ({
-            ...prevState,
-            [field]: {
-                ...prevState[field],
-                isValid,
-                showError: !isValid
-            }
-        }))
-
-    }
-
-    const handleFormSubmit = (event) => {
-        event.preventDefault();
+    const handleDelete = async () => {
+        await deleteSettings(formState);
+        onAlertClose();
         onClose();
+        window.location.reload();
+    };
 
-        saveSettings({
-            name: formState.name.value,
-            surname: formState.surname.value,
-            username: formState.username.value,
-            phone: formState.phone.value,
-            email: formState.email.value,
-            password: formState.email.value
-        })
-    }
 
-    const isSubmitButtonDisabled = !formState.name.isValid ||
-        !formState.surname.isValid ||
-        !formState.username.isValid ||
-        !formState.phone.isValid ||
-        !formState.email.isValid ||
-        !formState.email.isValid
+    const handleClose = () => {
+        onClose();
+    };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-                <ModalHeader>Edit User</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                    <Stack spacing={4}>
-                        {inputs.map((input) => (
-                            <CustomInput
-                                key={input.field}
-                                field={input.field}
-                                label={input.label}
-                                value={formState[input.field].value}
-                                onChangeHandler={handleInputValueChange}
-                                onBlurHandler={handleInputValidationOnBlur}
-                                showErrorMessage={formState[input.field].showError}
-                                validationMessage={input.validationMessage}
-                                type={input.type}
-                                textArea={input.textArea}
-                            />
-                        ))}
-                    </Stack>
-                </ModalBody>
+        <>
+            <Modal isOpen={isOpen} onClose={handleClose}>
+                <ModalOverlay />
+                <ModalContent mx='auto' my='auto' >
+                    <ModalHeader>Edit User</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <SimpleGrid columns={2} spacing={4}>
+                            {["name", "surname", "username", "phone", "email", "password", "role"].map((field) => (
+                                <FormControl key={field}>
+                                    <FormLabel>{field.charAt(0).toUpperCase() + field.slice(1)}</FormLabel>
+                                    {field === "role" ? (
+                                        <Select name="role" value={formState.role} onChange={handleInputChange}>
+                                            <option value="ADMIN_ROLE">ADMIN</option>
+                                            <option value="EMPLOYEE_ROLE">EMPLEADO</option>
+                                        </Select>
+                                    ) : (
+                                        <Input name={field} value={formState[field]} onChange={handleInputChange} />
+                                    )}
+                                </FormControl>
+                            ))}
 
-                <ModalFooter>
-                    <Button colorScheme="blue" mr={3} onClick={handleFormSubmit}>
-                        Save
-                    </Button>
-                    <Button variant="ghost" onClick={onClose}>Cancel</Button>
-                </ModalFooter>
-            </ModalContent>
-        </Modal>
-    )
-}
+                        </SimpleGrid>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="blue" onClick={handleSave}>Save</Button>
+                        <Button ml={3} variant="ghost" onClick={handleClose}>Cancel</Button>
+                        <Button ml={3} colorScheme="red" onClick={onAlertOpen}>Delete</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
+            <AlertDialog
+                isOpen={isAlertOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onAlertClose}
+                
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent mx='auto' my='auto' >
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Confirm Delete
+                        </AlertDialogHeader>
+                        <AlertDialogBody>
+                            Estas seguro de eliminar el usuario?
+                        </AlertDialogBody>
+                        <AlertDialogFooter>
+                            <Button ref={cancelRef} onClick={onAlertClose}>
+                                Cancel
+                            </Button>
+                            <Button colorScheme="red" onClick={handleDelete} ml={3}>
+                                Delete
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
+        </>
+    );
+};
