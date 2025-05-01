@@ -11,7 +11,7 @@ apiClient.interceptors.request.use(
 
         if(useUserDetails){
             const token = JSON.parse(useUserDetails).token
-            config.headers.Authorization = `Bearer ${token}`
+            config.headers['x-token'] = token;
         }
 
         return config;
@@ -52,5 +52,88 @@ export const getProducts = async () => {
             error: true,
             e
         }
+    }
+
+}
+
+export const getCategories = async () => {
+    try {
+      return await apiClient.get("/categories");
+    } catch (e) {
+      return { error: true, e };
+    }
+  };
+  
+  export const getProviders = async () => {
+    try {
+      return await apiClient.get("/provider");
+    } catch (e) {
+      return { error: true, e };
+    }
+  };
+
+export const saveProducts = async (data) => {
+    try {
+        return await apiClient.post('/products', data)
+    } catch (e) {
+        return{
+            error: true,
+            e
+        }
+    }
+}
+
+export const updateProducts = async (id, data) => {
+    try {
+        return await apiClient.put(`/products/${id}`, data)
+    } catch (e) {
+        return{
+            error: true,
+            e
+        }
+    }
+}
+
+export const deleteProducts = async (id, body) => {
+    try {
+      return await apiClient.delete(`/products/${id}`, { data: body });
+    } catch (e) {
+      return {
+        error: true,
+        e,
+      };
+    }
+  };
+  
+
+
+export const updateUser = async(userId) => {
+    try {
+        return await apiClient.put(`/users/${userId}`)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getUsers = async() => {
+    try {
+        return await apiClient.get('/users')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+
+const checkResponseStatus = (e) => {
+    const responseStatus = e?.response?.status
+
+    if(responseStatus){
+        (responseStatus === 401 || responseStatus === 403) && logout()
     }
 }

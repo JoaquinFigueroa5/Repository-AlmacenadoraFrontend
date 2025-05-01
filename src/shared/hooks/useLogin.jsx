@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login as loginRequest } from "../../services"
 import toast from "react-hot-toast";
+import { UserContext } from "../../context/UserContext";
 
 export const useLogin = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate()
+
+    const { refreshUser } = useContext(UserContext)
 
     const login = async (email, password) => {
 
@@ -27,6 +30,8 @@ export const useLogin = () => {
         const { userDetails } = response.data
 
         localStorage.setItem('user', JSON.stringify(userDetails));
+        refreshUser();
+        
 
         toast.success('Sesion iniciada correctamente')
 

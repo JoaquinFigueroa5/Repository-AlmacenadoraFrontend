@@ -1,11 +1,15 @@
-import { Auth } from "./pages/Auth";
-import { LandingPage } from "./pages/LandingPage";
-import { ProductsPage } from "./pages/products/ProductPage";
 
+import { lazy } from 'react';
+
+const Auth = lazy(() => import('./pages/Auth'));
+const LandingPage = lazy(() => import('./pages/LandingPage'));
+const ViewUsers = lazy(() => import('./components/ViewUsers'));
+import { ProductsPage } from './pages/products/ProductPage';
 const routes = [
-    {path: '/', element: <Auth /> },
-    { path: '/products', element: <ProductsPage /> },
-    {path: '/dashboard', element: <LandingPage /> }
+    { path: '/', element: <Auth /> },
+    { path: '/dashboard', element: <LandingPage /> },
+    { path: '/products/*', element: <ProductsPage /> },
+    { path: '/users/*', element: <ViewUsers /> }
 ]
 
 export default routes

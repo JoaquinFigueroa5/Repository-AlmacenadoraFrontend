@@ -1,49 +1,77 @@
-import { useEffect } from "react";
-import { Box, Heading } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Box, Heading, Button, useDisclosure, Flex, Spacer } from "@chakra-ui/react";
 import { useProduct } from "../../shared/hooks/useProducts";
 import { ProductSearch } from "../../components/products/ProductSearch";
 import { Products } from "../../components/products/Product";
+import { ProductFormModal } from "../../components/products/ProductFormModal";
 import NavBar from "../../components/NavBar";
 import "./ProductPage.css";
 
 export const ProductsPage = () => {
-  const { getProducts, allProducts, isFetching } = useProduct();
+  const { getProducts, allProducts, isFetching, deleteProduct } = useProduct();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [productToEdit, setProductToEdit] = useState(null);
 
   useEffect(() => {
     getProducts();
   }, []);
 
-  const handleBuy = (productId) => {
-    console.log("Editar producto:", productId);
+  const handleOpenAddModal = () => {
+    setProductToEdit(null);
+    onOpen(); 
   };
 
-  const handleAddToCart = (productId) => {
-    console.log("Eliminar producto:", productId);
+  const handleEditProduct = (product) => {
+    setProductToEdit(product); 
+    onOpen(); 
   };
 
   return (
     <>
       <NavBar />
-      <Box p={4}>
-        <div className="products-header">
-          <Heading className="title">Nuestros Productos</Heading>
-          <div className="search">
-            <ProductSearch />
-          </div>
-        </div>
+      <Box p={4} width="100%" maxWidth="1700px" mx="auto">
+        <Flex
+          className="products-header"
+          direction={{ base: "column", md: "row" }} 
+          align={{ base: "flex-start", md: "center" }}
+          gap={{ base: 2, md: 4 }}
+          mt={4}
+          mb={4}
+        >
+          <Heading className="title" mb={{ base: 2, md: 0 }}>Nuestros Productos</Heading>
+          <Spacer /> 
+          <Button colorScheme="teal" onClick={handleOpenAddModal}>
+            ¡Registrar nuevo producto!
+          </Button>
+          <ProductSearch />
+        </Flex>
 
-        {isFetching ? (
-          "Cargando productos..."
-        ) : allProducts.length > 0 ? (
-          <Products 
-            products={allProducts}
-            onBuy={handleBuy}
-            onAddToCart={handleAddToCart}
-          />
-        ) : (
-          "No se encontraron productos."
-        )}
+        <Box display="flex" justifyContent="center" width="100%">
+          <Box maxWidth="1600px" width="100%">
+            {isFetching ? (
+              "Cargando productos..."
+            ) : allProducts.length > 0 ? (
+              <Products
+                products={allProducts}
+                handleEditProduct={handleEditProduct}
+                handleDeleteProduct={deleteProduct}
+              />
+            ) : (
+              "No se encontraron productos."
+            )}
+          </Box>
+        </Box>
       </Box>
+
+      <ProductFormModal
+        isOpen={isOpen}
+        onClose={() => {
+          setProductToEdit(null);
+          onClose();
+        }}
+        productToEdit={productToEdit}
+        onProductSaved={getProducts}
+      />
     </>
   );
 };

@@ -15,17 +15,28 @@ import {
   ModalBody,
   ModalFooter,
 } from "@chakra-ui/react";
-import '../../pages/products/ProductPage.css';  // Asegúrate de importar el archivo CSS
 
-export const ProductCard = ({ product, onBuy, onAddToCart }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();  // Control de estado para el modal
+export const ProductCard = ({ product, handleEditProduct, handleDeleteProduct }) => {
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
+  } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      {/* Card normal */}
       <Card
-        className="product-card"
-        onClick={onOpen} // Abre el modal al hacer clic
+        cursor="pointer"
+        boxShadow="md"
+        borderRadius="lg"
+        maxW="300px"
+        transition="all 0.3s ease"
+        _hover={{
+          transform: "scale(1.05)",
+          boxShadow: "xl",
+        }}
+        onClick={onOpen} 
       >
         <Image
           src={product.image}
@@ -33,55 +44,122 @@ export const ProductCard = ({ product, onBuy, onAddToCart }) => {
           objectFit="cover"
           height="200px"
           width="100%"
+          borderTopRadius="lg"
         />
-        <CardBody padding="4">
-          <Stack spacing="1">
-            <Text fontSize="xl" fontWeight="bold">{product.name}</Text>
-            <Badge colorScheme="purple" width="fit-content">{product.category}</Badge>
-            <Text fontSize="md" color="green.500" mt="2">
+        <CardBody p={4}>
+          <Stack spacing={1}>
+            <Text fontSize="xl" fontWeight="bold">
+              {product.name}
+            </Text>
+            <Badge colorScheme="purple" width="fit-content">
+              {product.category}
+            </Badge>
+            <Text fontSize="md" color="green.500" mt={2}>
               Q{parseFloat(product.price.$numberDecimal).toFixed(2)}
             </Text>
-            <Text fontSize="sm" color={product.stock > 0 ? "teal.500" : "red.500"}> 
+            <Text
+              fontSize="sm"
+              color={product.stock > 0 ? "teal.500" : "red.500"}
+            >
               Stock: {product.stock}
             </Text>
           </Stack>
         </CardBody>
       </Card>
 
-      {/* Modal para mostrar la card expandida */}
-      <Modal isOpen={isOpen} onClose={onClose} size="xl" className="modal-product">
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader className="modal-header">{product.name}</ModalHeader>
+        <ModalContent borderRadius="lg">
+          <ModalHeader fontSize="xl" fontWeight="bold" color="gray.700">
+            {product.name}
+          </ModalHeader>
           <ModalCloseButton />
-          <ModalBody className="modal-body">
-            <Stack spacing="1">
+          <ModalBody p={4}>
+            <Stack spacing={3}>
               <Image
                 src={product.image}
                 alt={product.name}
-                className="product-image" 
+                maxH="400px"
+                objectFit="cover"
+                width="100%"
+                borderRadius="md"
               />
-              <Text fontSize="xl" fontWeight="bold">{product.name}</Text>
-              <Badge colorScheme="purple" width="fit-content">{product.category}</Badge>
-              <Text fontSize="md" color="green.500" mt="2">
+              <Text fontSize="lg" fontWeight="bold">
+                {product.name}
+              </Text>
+              <Badge colorScheme="purple" width="fit-content">
+                {product.category}
+              </Badge>
+              <Text fontSize="md" color="green.500">
                 Q{parseFloat(product.price.$numberDecimal).toFixed(2)}
               </Text>
-              <Text fontSize="sm" color={product.stock > 0 ? "teal.500" : "red.500"}>
+              <Text
+                fontSize="sm"
+                color={product.stock > 0 ? "teal.500" : "red.500"}
+              >
                 Stock: {product.stock}
               </Text>
-              <Text fontSize="sm" color="gray.600">{product.description}</Text>
+              <Text fontSize="sm" color="black">
+                {product.description}
+              </Text>
+              <Text fontSize="sm" color="gray.600">
+                {product.entryDate}
+              </Text>
             </Stack>
           </ModalBody>
-          <ModalFooter className="modal-footer">
-            <Button colorScheme="teal" onClick={() => onBuy(product._id)} className="modal-button">
+          <ModalFooter justifyContent="flex-start">
+            <Button
+              colorScheme="teal"
+              mr={3}
+              onClick={() => {
+                onClose();
+                handleEditProduct(product); 
+              }}
+            >
               Editar
             </Button>
-            <Button colorScheme="red" variant="outline" onClick={() => onAddToCart(product._id)} className="modal-button">
+            <Button
+              colorScheme="red"
+              mr={3}
+              onClick={() => {
+                onDeleteOpen();
+              }}
+            >
               Eliminar
             </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cerrar
+            </Button>
+            <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>¿Estás seguro?</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  Esta acción eliminará el producto <strong>{product.name}</strong>. ¿Deseás continuar?
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button
+                    colorScheme="red"
+                    onClick={async () => {
+                      await handleDeleteProduct(product._id, { confirm: "YES" });
+                      onDeleteClose();
+                    }}
+                  >
+                    Sí, eliminar
+                  </Button>
+                  <Button variant="ghost" onClick={onDeleteClose}>
+                    Cancelar
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+
           </ModalFooter>
         </ModalContent>
       </Modal>
+
     </>
   );
 };

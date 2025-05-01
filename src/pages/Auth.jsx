@@ -3,7 +3,7 @@ import { Login } from '../components/Login'
 import { Register } from '../components/Register'
 import { Box } from '@chakra-ui/react'
 
-export const Auth = () => {
+const Auth = () => {
     const [isLogin, setIsLogin] = useState(true)
 
     const handleAuthPageToggle = () => {
@@ -20,3 +20,5 @@ export const Auth = () => {
         </Box>
     )
 }
+
+export default Auth;
