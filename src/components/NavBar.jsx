@@ -97,6 +97,7 @@ export default function NavBar() {
       >
         <HStack spacing={8} alignItems={"center"}>
           <NavLogo />
+
           <Link to={'/dashboard'} >
             <Box fontWeight="bold" fontSize="xl">
               Almacenadora
@@ -105,7 +106,7 @@ export default function NavBar() {
           {user.role === 'ADMIN_ROLE' ? (
             <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>
               <NavLink to="/users">Users</NavLink>
-              <NavLink to="/projects">Products</NavLink>
+              <NavLink to="/products">Products</NavLink>
               <NavLink to="/team">Movements</NavLink>
               <NavLink to="/team">Information</NavLink>
             </HStack>

@@ -9,8 +9,9 @@ const LandingPage = () => {
         <>
             <NavBar />
             <Carousel />
-            <HeadLine />
+           <HeadLine />
             <Footer />
+
         </>
     )
 }
