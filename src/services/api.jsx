@@ -97,9 +97,9 @@ export const getMovimientoEntrada = async (data) => {
     }
   };
   
-export const getMovimientoSalida = async() => {
+export const getMovimientoSalida = async(data) => {
     try{
-        return await apiClient.post('/movements/registerOutput')
+        return await apiClient.post('/movements/registerOutput', data)
     }catch(e){
         return {
             error: true,

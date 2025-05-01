@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, Box, Heading, Button } from '@chakra-ui/react';
 import { useMovimientos } from '../../shared/hooks';
 import dayjs from 'dayjs';
 
-const MovimientosTableComponent = ({switchEntryHandler}) => {
+const MovimientosTableComponent = () => {
   
 
-  const { movimientos, getMovimientos, isFetching, error } = useMovimientos(); // Incluimos 'error' del hook
+  const { movimientos, getMovimientos,  } = useMovimientos(); // Incluimos 'error' del hook
   const [tableData, setTableData] = useState([]);
   const [hasFetched, setHasFetched] = useState(false);
 
@@ -25,28 +25,24 @@ const MovimientosTableComponent = ({switchEntryHandler}) => {
   useEffect(() => {
     if (movimientos?.movements && Array.isArray(movimientos.movements)) {
       const formattedData = movimientos.movements.map((movimiento) => ({
-        producto: movimiento.product === "Data not found" ? "Producto no disponible" : movimiento.product,
+        producto:
+          movimiento.product === "Data not found"
+            ? "Producto no disponible"
+            : movimiento.product?.name || "Producto sin nombre",
         cantidad: movimiento.quantity,
-        empleado: movimiento.employee === "Data not found" ? "Empleado no disponible" : movimiento.employee,
+        empleado:
+          movimiento.employee === "Data not found"
+            ? "Empleado no disponible"
+            : movimiento.employee?.name || "Empleado sin nombre",
         fecha: dayjs(movimiento.date).format('DD/MM/YYYY HH:mm:ss'),
         razon: movimiento.reason || "N/A",
       }));
       setTableData(formattedData);
-      console.log("Estado de tableData (formateado):", formattedData); // Nuevo console.log
+      console.log("Estado de tableData (formateado):", formattedData);
     } else {
       console.log("movimientos o movimientos.movements no es un array:", movimientos);
     }
   }, [movimientos]);
-
-  // Si estamos en el proceso de carga, mostramos un mensaje
-  if (isFetching) {
-    return <div>Cargando movimientos...</div>;
-  }
-
-  // Si hay un error, mostramos un mensaje
-  if (error) {
-    return <div>Error al cargar los movimientos: {error.message}</div>;
-  }
 
   return (
     <Box p={4}>
