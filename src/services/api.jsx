@@ -171,6 +171,71 @@ export const deleteUser = async (userId) => {
     }
 }
 
+export const getStats = async() => {
+    try {
+        return await apiClient.get('/products/Stats')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getPercentage = async() => {
+    try {
+        return await apiClient.get('/products/percentage')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getTotalC = async() => {
+    try {
+        return await apiClient.get('/clients/total')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getEarnings = async() => {
+    try {
+        return await apiClient.get('/products/earnings')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getTop = async() => {
+    try {
+        return await apiClient.get('/products/top')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getTop3 = async() => {
+    try {
+        return await apiClient.get('/products/top3')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
 
 const checkResponseStatus = (e) => {
     const responseStatus = e?.response?.status

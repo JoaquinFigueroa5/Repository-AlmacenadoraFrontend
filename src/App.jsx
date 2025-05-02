@@ -5,6 +5,8 @@ import NavBar from './components/NavBar';
 import routes from './Routes';
 import { Suspense } from 'react';
 import Loading from './components/Loading';
+import theme from './resources/index'
+
 
 function App() {
 
@@ -13,7 +15,7 @@ function App() {
 
   return (
     <>
-      
+      <ChakraProvider theme={theme} >
         {/* <NavBar /> */}
         <Suspense fallback={ <Loading/> } >
           {element}
@@ -22,6 +24,7 @@ function App() {
           position='bottom-top-center'
           reverseOrder={false}
         />
+      </ChakraProvider>
     </>
   )
 }

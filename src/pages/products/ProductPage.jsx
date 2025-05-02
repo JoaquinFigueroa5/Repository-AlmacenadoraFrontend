@@ -9,7 +9,7 @@ import Footer from "../../components/dashboard/Footer";
 import "./ProductPage.css";
 
 const ProductsPage = () => {
-  const { getProducts, allProducts, isFetching, deleteProduct } = useProduct();
+  const { getProducts, products, isFetching, deleteProduct } = useProduct();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [productToEdit, setProductToEdit] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,15 +19,20 @@ const ProductsPage = () => {
     getProducts();
   }, []);
 
+
+  useEffect(() => {
+    console.log('Products loaded:', products);  // Verifica que allProducts tiene los productos correctos
+  }, [products]);
+
   useEffect(() => {
     if (searchTerm) {
       setFilteredProducts(
-        allProducts.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
       );
     } else {
-      setFilteredProducts(allProducts || []);
+      setFilteredProducts(products || []);
     }
-  }, [searchTerm, allProducts]);
+  }, [searchTerm, products]);
 
   const handleOpenAddModal = () => {
     setProductToEdit(null);

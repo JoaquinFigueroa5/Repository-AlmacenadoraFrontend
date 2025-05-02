@@ -6,6 +6,7 @@ const ViewUsers = lazy(() => import('./components/ViewUsers'));
 const ProductsPage = lazy(() => import('./pages/products/ProductPage'));
 const PrivateRoute = lazy(() => import('./components/PrivateRoute'));
 const UnauthorizedModal = lazy(() => import('./components/UnauthorizedModal'));
+const Stats = lazy(() => import('./pages/Stats'));
 
 const routes = [
     { path: '/', element: <Auth /> },
@@ -31,6 +32,13 @@ const routes = [
         { path: '', element: <ViewUsers /> },
         { path: ':id', element: <ViewUsers /> }
       ]
+    },
+    {
+        path: '/information/*',
+        element: <PrivateRoute allowedRoles={['ADMIN_ROLE']} />,
+        children: [
+            { path: '', element: <Stats /> }
+        ]
     }
   ];
   

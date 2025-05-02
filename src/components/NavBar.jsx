@@ -107,7 +107,7 @@ export default function NavBar() {
               <NavLink to="/users">Users</NavLink>
               <NavLink to="/products">Products</NavLink>
               <NavLink to="/team">Movements</NavLink>
-              <NavLink to="/team">Information</NavLink>
+              <NavLink to="/information">Information</NavLink>
               <NavLink to="/team">Clients</NavLink>
             </HStack>
           ) : (

@@ -4,19 +4,26 @@ import { getProducts as getProductsRequest, saveProducts as saveProductsRequest,
 
 export const useProduct = () => {
   const [products, setProducts] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
 
   const getProducts = async (isLogged = false) => {
-    const productData = await getProductsRequest();
+    setIsFetching(true); 
 
-    if (productData.error) {
-      return toast.error(
-        productData.e?.response?.data?.msg || "An error occurred while reading channels"
-      );
+    const productsData = await getProductsRequest();
+    console.log('productsData ', productsData);
+    
+
+    setIsFetching(false); 
+
+    if (productsData.error) {
+      toast.error(productsData.e?.response?.data || 'Error al traer los productos');
+      return;
     }
-    if (!isLogged) {
-      return setProducts({
-        products: productData.data.products,
-      });
+
+    setProducts(productsData.data.products);
+
+    if (isLogged) {
+      return { products: productsData.data.products };
     }
   };
 
@@ -54,11 +61,11 @@ export const useProduct = () => {
   };
   
   return {
+    products,
     getProducts,
     addProduct,
     updateProduct,
     deleteProduct,
-    isFetching: !Boolean(products),
-    allProducts: products?.products,
+    isFetching
   };
 };
