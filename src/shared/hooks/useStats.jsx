@@ -10,7 +10,7 @@ export const useStats = () => {
     setIsFetching(true); // Establecer el estado de carga antes de hacer la solicitud.
 
     const statsData = await getStatsRequest();
-
+    
     setIsFetching(false); // Finaliza la carga después de la respuesta.
 
     if (statsData.error) {
@@ -20,7 +20,7 @@ export const useStats = () => {
 
     
     setStats(statsData.data); 
-
+    console.log('Datos de estadísticas:', statsData.data); // Verifica la estructura de los datos aquí
     if (isLogged) {
       return { stats: statsData.data };
     }

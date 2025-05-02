@@ -1,27 +1,74 @@
 import { Box } from '@chakra-ui/react'
 import NavBar from '../components/NavBar';
-import BarListComponent from '../components/BarList';
-import StatsHeader from '../components/StatsHeader';
-import ProductList from '../components/ProductList';
-import { Grid,GridItem } from "@chakra-ui/react"
+import BarListComponent from '../components/Stats/BarList';
+import StatsHeader from '../components/Stats/StatsHeader';
+import PieChart from '../components/Stats/PieChart';
+import Sidebar from '../components/Stats/Sidebar';
+import TopProductCard from '../components/Stats/TopProductCard';
+import TopList from '../components/Stats/TopList';
+import { Grid, GridItem } from "@chakra-ui/react"
 
 export const Stats = () => {
   return (
-    <Box bg="brand.fondo" minH="100vh" w="100%">
+    <Box position="relative">
+      {/* NavBar con z-index más alto para que esté por encima */}
+      <Box position="fixed" top="0" width="100%" zIndex="1000">
         <NavBar />
+      </Box>
+      
+      {/* Sidebar con z-index menor que NavBar */}
+      <Box position="fixed" top="0" left="0" height="100vh" zIndex="900">
+        <Sidebar />
+      </Box>
 
-        <Grid templateColumns="repeat(2, 1fr)" gap="6">
-            <GridItem>
-            <StatsHeader />
-            <BarListComponent />
+      {/* Contenido principal */}
+      <Box 
+        bg="brand.fondo" 
+        minH="100vh" 
+        w="100%" 
+        pt="60px" // Espacio para el NavBar
+        pl="210px" // Espacio para el Sidebar
+      >
+        <StatsHeader />
+
+        <Box pr="35px" pl="35px">
+          <Grid
+            templateColumns="1fr 350px"
+            mt="5px"
+            w="100%"
+            h="auto"
+            gap={4}
+            align="center"
+          > 
+            <GridItem bg="white" borderRadius="lg" overflow="hidden" boxShadow="sm">
+              <BarListComponent />
             </GridItem>
-            <GridItem>
-                <ProductList />
-               
+
+            <GridItem bg="gray.50" borderRadius="lg" overflow="hidden" boxShadow="sm">
+              <PieChart />
             </GridItem>
-        </Grid>
-        
-        
+          </Grid>
+        </Box>
+
+        <Box pr="35px" pl="35px">
+          <Grid
+            templateColumns="350px 1fr"  
+            mt="25px"
+            w="100%"
+            h="auto"
+            gap={4}
+            align="center"
+          > 
+            <GridItem  borderRadius="lg" overflow="hidden" boxShadow="sm">
+              <TopProductCard />
+            </GridItem>
+
+            <GridItem bg="white" borderRadius="lg" overflow="hidden" boxShadow="sm">
+              <TopList />
+            </GridItem>
+          </Grid>
+        </Box>
+      </Box>
     </Box>
-  )
-}
+  );
+};

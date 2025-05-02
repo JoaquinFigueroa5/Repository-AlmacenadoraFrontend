@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import { getPercentage as getPercentageRequest } from "../../services/api";
 
@@ -6,40 +6,46 @@ export const usePercentage = () => {
   const [percentage, setPercentage] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
-  const getPercentage = async (isLogged = false) => {
-    setIsFetching(true); // Establecer el estado de carga antes de hacer la solicitud.
+  const getPercentage = useCallback(async (isLogged = false) => {
+    setIsFetching(true);
 
     try {
-      const percentageData = await getPercentageRequest(); // Llamada al API
+      const axiosResponse = await getPercentageRequest(); // Esta es la respuesta completa de Axios
+      console.log('Respuesta Axios completa:', axiosResponse);
+      
+      setIsFetching(false);
 
-      setIsFetching(false); // Finaliza la carga después de la respuesta.
+      // La estructura que necesitamos está en axiosResponse.data.data
+      if (axiosResponse?.data?.success && Array.isArray(axiosResponse.data.data)) {
+        // Accedemos directamente al array dentro de axiosResponse.data.data
+        const rawData = axiosResponse.data.data;
+        console.log('Array de datos:', rawData);
+        
+        const formattedData = rawData.map((item) => ({
+          name: item.name,
+          value: parseFloat(item.salesPercentage),
+        }));
 
-      // Verifica si la respuesta tiene un error
-      if (percentageData?.error) {
-        toast.error(percentageData?.e?.response?.data || 'Error al traer los porcentajes');
-        return;
-      }
-
-      // Verifica si los datos están disponibles
-      if (percentageData?.data) {
-        setPercentage(percentageData.data); 
+        console.log('Datos formateados:', formattedData);
+        setPercentage(formattedData);
       } else {
+        console.error('Estructura de datos inesperada:', axiosResponse);
         toast.error('Datos de porcentaje no disponibles');
       }
-
+      
       if (isLogged) {
-        return { percentage: percentageData.data };
+        return { percentage: axiosResponse?.data?.data };
       }
     } catch (error) {
-      setIsFetching(false); // Asegúrate de terminar la carga en caso de error
+      setIsFetching(false);
       toast.error('Error de conexión. Intenta nuevamente');
-      console.error('Error al obtener los porcentajes:', error); // Para depuración
+      console.error('Error al obtener los porcentajes:', error);
     }
-  };
+  }, []);
 
   return {
-    percentage, 
-    isFetching, 
-    getPercentage, 
+    percentage,
+    isFetching,
+    getPercentage,
   };
 };

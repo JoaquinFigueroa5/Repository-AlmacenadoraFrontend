@@ -75,3 +75,47 @@ export const getPercentage = async() => {
         }
     }
 }
+
+export const getTotalC = async() => {
+    try {
+        return await apiClient.get('/clients/total')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getEarnings = async() => {
+    try {
+        return await apiClient.get('/products/earnings')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getTop = async() => {
+    try {
+        return await apiClient.get('/products/top')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getTop3 = async() => {
+    try {
+        return await apiClient.get('/products/top3')
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}

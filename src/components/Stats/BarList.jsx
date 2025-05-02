@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { useProducts } from "../shared/hooks";
+import { useProducts } from "../../shared/hooks";
 import { Heading } from '@chakra-ui/react';
 
 const BarListComponent = () => {
@@ -44,8 +44,8 @@ const BarListComponent = () => {
   }
 
   return (
-    <div style={{ width: '100vh', height: '50vh' }}>
-      <Heading as={'h2'}>Ventas por Producto</Heading>
+    <div style={{ width: '100vh', height: '50vh', marginTop: '20px' ,marginBottom: '50px'}}>
+      <Heading as={'h2'} mb={3}>Ventas por Producto</Heading>
       <ResponsiveContainer>
         <BarChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
