@@ -24,7 +24,6 @@ import { Link } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { logout } from "../shared/hooks";
-// import { UserSettings } from "./UserSettings";
 
 const NavLink = ({ children, to }) => {
   const navLinkHover = useColorModeValue("gray.200", "gray.700");
@@ -59,6 +58,7 @@ const NavLogo = () => {
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
+
   const { user, refreshUser } = useContext(UserContext);
 
   const bgColor = useColorModeValue("gray.100", "gray.900");
@@ -97,7 +97,6 @@ export default function NavBar() {
       >
         <HStack spacing={8} alignItems={"center"}>
           <NavLogo />
-
           <Link to={'/dashboard'} >
             <Box fontWeight="bold" fontSize="xl">
               Almacenadora
@@ -109,6 +108,7 @@ export default function NavBar() {
               <NavLink to="/products">Products</NavLink>
               <NavLink to="/team">Movements</NavLink>
               <NavLink to="/team">Information</NavLink>
+              <NavLink to="/team">Clients</NavLink>
             </HStack>
           ) : (
             <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>

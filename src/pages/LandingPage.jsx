@@ -5,11 +5,11 @@ import Footer from "../components/dashboard/Footer";
 
 const LandingPage = () => {
 
-    return(
+    return (
         <>
             <NavBar />
             <Carousel />
-           <HeadLine />
+            <HeadLine />
             <Footer />
 
         </>

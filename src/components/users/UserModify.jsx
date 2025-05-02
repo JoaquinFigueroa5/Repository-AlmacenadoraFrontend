@@ -22,6 +22,7 @@ import {
     Select
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import toast from "react-hot-toast";
 
 export const UsersModify = ({ isOpen, onClose, settings, saveSettings, deleteSettings }) => {
     const [formState, setFormState] = useState(settings);

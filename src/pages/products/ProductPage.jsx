@@ -5,16 +5,29 @@ import { ProductSearch } from "../../components/products/ProductSearch";
 import { Products } from "../../components/products/Product";
 import { ProductFormModal } from "../../components/products/ProductFormModal";
 import NavBar from "../../components/NavBar";
+import Footer from "../../components/dashboard/Footer";
 import "./ProductPage.css";
 
-export const ProductsPage = () => {
+const ProductsPage = () => {
   const { getProducts, allProducts, isFetching, deleteProduct } = useProduct();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [productToEdit, setProductToEdit] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     getProducts();
   }, []);
+
+  useEffect(() => {
+    if (searchTerm) {
+      setFilteredProducts(
+        allProducts.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    } else {
+      setFilteredProducts(allProducts || []);
+    }
+  }, [searchTerm, allProducts]);
 
   const handleOpenAddModal = () => {
     setProductToEdit(null);
@@ -24,6 +37,10 @@ export const ProductsPage = () => {
   const handleEditProduct = (product) => {
     setProductToEdit(product); 
     onOpen(); 
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
   };
 
   return (
@@ -43,16 +60,16 @@ export const ProductsPage = () => {
           <Button colorScheme="teal" onClick={handleOpenAddModal}>
             ¡Registrar nuevo producto!
           </Button>
-          <ProductSearch />
+          <ProductSearch onSearch={handleSearch} />
         </Flex>
 
         <Box display="flex" justifyContent="center" width="100%">
           <Box maxWidth="1600px" width="100%">
             {isFetching ? (
               "Cargando productos..."
-            ) : allProducts.length > 0 ? (
+            ) : filteredProducts.length > 0 ? (
               <Products
-                products={allProducts}
+                products={filteredProducts}
                 handleEditProduct={handleEditProduct}
                 handleDeleteProduct={deleteProduct}
               />
@@ -75,3 +92,5 @@ export const ProductsPage = () => {
     </>
   );
 };
+
+export default ProductsPage;

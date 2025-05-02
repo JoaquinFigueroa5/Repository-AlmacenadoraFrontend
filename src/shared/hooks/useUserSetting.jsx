@@ -7,7 +7,6 @@ export const useUserSettings = (userId) => {
 
     const fetchUserSettings = async () => {
         const response = await getUsers();
-        console.log("Usuarios obtenidos:", response); // DEBUG
     
         if (response.error) {
             return toast.error(

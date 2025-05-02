@@ -8,21 +8,22 @@ export const useRegister = () => {
 
     const navigate = useNavigate();
 
-    const register = async(email, name, password, phone, surname, username) => {
+    const register = async (email, name, password, phone, surname, username) => {
 
         setIsLoading(true)
 
-        const response = await registerRequest({ email, name, password, phone, surname, username})
+        const response = await registerRequest({ email, name, password, phone, surname, username })
 
         setIsLoading(false)
 
-        if(response.error){
-            return toast.error(response.error?.response?.data || 'Ocurrio un error al registrarse, intente de nuevo', {
+        if (!response.success) {
+            return toast.error(response.message, {
                 style: {
                     background: 'red',
-                    color: 'white'
+                    color: 'white',
+                    whiteSpace: 'pre-line'
                 }
-            }) 
+            });
         }
 
         const { userDetails } = response.data

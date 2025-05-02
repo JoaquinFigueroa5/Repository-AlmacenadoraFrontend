@@ -21,21 +21,21 @@ import "../../pages/products/ProductPage.css";
 
 const formatDate = (isoDate) => {
   const date = new Date(isoDate);
-  return date.toISOString().split("T")[0]; 
+  return date.toISOString().split("T")[0];
 };
 
 export const ProductFormModal = ({ isOpen, onClose, productToEdit, onProductSaved }) => {
   const { categories, providers } = useProductUtils();
 
   const [form, setForm] = useState({
-    name: "",            
-    description: "",     
-    price: "",           
-    stock: "",           
-    categoryId: "",      
-    providerId: "",      
-    entryDate: "",       
-    image: ""            
+    name: "",
+    description: "",
+    price: "",
+    stock: "",
+    category: "",
+    provider: "",
+    entryDate: "",
+    image: ""
   });
 
   useEffect(() => {
@@ -44,14 +44,14 @@ export const ProductFormModal = ({ isOpen, onClose, productToEdit, onProductSave
       const providerFound = providers.find(prov => prov.name === productToEdit.provider);
 
       setForm({
-        name: String(productToEdit.name) || "", 
-        description: String(productToEdit.description) || "", 
-        price: String(productToEdit.price?.$numberDecimal) || "", 
-        stock: String(productToEdit.stock) || "", 
-        categoryId: categoryFound?._id || "", 
-        providerId: providerFound?._id || "", 
-        entryDate: productToEdit.entryDate ? formatDate(productToEdit.entryDate) : "", 
-        image: String(productToEdit.image) || "" 
+        name: String(productToEdit.name) || "",
+        description: String(productToEdit.description) || "",
+        price: String(productToEdit.price?.$numberDecimal ?? productToEdit.price) || "",
+        stock: String(productToEdit.stock) || "",
+        category: categoryFound?._id || "",
+        provider: providerFound?._id || "",
+        entryDate: productToEdit.entryDate ? formatDate(productToEdit.entryDate) : "",
+        image: String(productToEdit.image) || ""
       });
     } else {
       setForm({
@@ -59,22 +59,28 @@ export const ProductFormModal = ({ isOpen, onClose, productToEdit, onProductSave
         description: "",
         price: "",
         stock: "",
-        categoryId: "",
-        providerId: "",
+        category: "",
+        provider: "",
         entryDate: "",
         image: ""
       });
     }
-  }, [productToEdit, isOpen]);
+  }, [productToEdit, isOpen, categories, providers]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async () => {
-    if (!form.categoryId || !form.providerId) {
-      return toast.error("Debe seleccionar una categoría y un proveedor");
+    if (!form.category || !form.provider) {
+      return toast.error("Debe seleccionar una categoría y un proveedor", {
+        style: {
+          background: 'red',
+          color: 'white',
+          whiteSpace: 'pre-line'
+        }
+      });
     }
 
     let res;
@@ -85,13 +91,25 @@ export const ProductFormModal = ({ isOpen, onClose, productToEdit, onProductSave
     }
 
     if (res?.error) {
-      return toast.error("Error al guardar producto");
+      return toast.error("Error al guardar producto", {
+        style: {
+          background: 'red',
+          color: 'white',
+          whiteSpace: 'pre-line'
+        }
+      });
     }
 
-    toast.success(productToEdit ? "Producto actualizado correctamente" : "Producto guardado correctamente");
+    toast.success(productToEdit ? "Producto actualizado correctamente" : "Producto guardado correctamente", {
+      style: {
+        background: 'green',
+        color: 'white'
+      }
+    });
     onClose();
-    onProductSaved(); 
+    onProductSaved();
   };
+
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -123,7 +141,7 @@ export const ProductFormModal = ({ isOpen, onClose, productToEdit, onProductSave
 
             <FormControl isRequired>
               <FormLabel>Categoría</FormLabel>
-              <Select name="categoryId" value={form.categoryId} onChange={handleChange}>
+              <Select name="category" value={form.category} onChange={handleChange}>
                 <option value="">Seleccione una categoría</option>
                 {categories.map((cat) => (
                   <option key={cat._id} value={cat._id}>{cat.name}</option>
@@ -133,7 +151,7 @@ export const ProductFormModal = ({ isOpen, onClose, productToEdit, onProductSave
 
             <FormControl isRequired>
               <FormLabel>Proveedor</FormLabel>
-              <Select name="providerId" value={form.providerId} onChange={handleChange}>
+              <Select name="provider" value={form.provider} onChange={handleChange}>
                 <option value="">Seleccione un proveedor</option>
                 {providers.map((prov) => (
                   <option key={prov._id} value={prov._id}>{prov.name}</option>

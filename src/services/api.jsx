@@ -6,22 +6,27 @@ const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use(
+
     (config) => {
         const useUserDetails = localStorage.getItem('user');
 
-        if(useUserDetails){
+        if (useUserDetails) {
             const token = JSON.parse(useUserDetails).token
-            config.headers['x-token'] =  token;
+            config.headers['x-token'] = token;
         }
 
         return config;
     },
-    (e) => {
-        return Promise.reject(e);
+    response => response,
+    error => {
+        if (error.response?.status === 401) {
+            window.dispatchEvent(new Event('token-expired'));
+        }
+        return Promise.reject(error);
     }
 )
 
-export const login = async(data) => {
+export const login = async (data) => {
     try {
         return await apiClient.post('/auth/login', data)
     } catch (e) {
@@ -32,22 +37,33 @@ export const login = async(data) => {
     }
 }
 
-export const register = async(data) => {
+export const register = async (data) => {
     try {
-        return await apiClient.post('/auth/register', data)
-    } catch (e) {
+        const res = await apiClient.post('/auth/register', data);
         return {
-            error: true,
-            e
-        }
+            success: true,
+            data: res.data
+        };
+    } catch (e) {
+        const errorList = e?.response?.data?.errors;
+        const message = Array.isArray(errorList)
+            ? errorList.map(err => err.msg).join('\n')
+            : e?.response?.data?.msg || 'Ocurrió un error en el registro';
+
+        return {
+            success: false,
+            message
+        };
     }
-}
+};
+
+
 
 export const getProducts = async () => {
     try {
         return await apiClient.get('/products')
     } catch (e) {
-        return{
+        return {
             error: true,
             e
         }
@@ -57,25 +73,25 @@ export const getProducts = async () => {
 
 export const getCategories = async () => {
     try {
-      return await apiClient.get("/categories");
+        return await apiClient.get("/categories");
     } catch (e) {
-      return { error: true, e };
+        return { error: true, e };
     }
-  };
-  
-  export const getProviders = async () => {
+};
+
+export const getProviders = async () => {
     try {
-      return await apiClient.get("/provider");
+        return await apiClient.get("/provider");
     } catch (e) {
-      return { error: true, e };
+        return { error: true, e };
     }
-  };
+};
 
 export const saveProducts = async (data) => {
     try {
         return await apiClient.post('/products', data)
     } catch (e) {
-        return{
+        return {
             error: true,
             e
         }
@@ -86,7 +102,7 @@ export const updateProducts = async (id, data) => {
     try {
         return await apiClient.put(`/products/${id}`, data)
     } catch (e) {
-        return{
+        return {
             error: true,
             e
         }
@@ -95,15 +111,15 @@ export const updateProducts = async (id, data) => {
 
 export const deleteProducts = async (id, body) => {
     try {
-      return await apiClient.delete(`/products/${id}`, { data: body });
+        return await apiClient.delete(`/products/${id}`, { data: body });
     } catch (e) {
-      return {
-        error: true,
-        e,
-      };
+        return {
+            error: true,
+            e,
+        };
     }
-  };
-  
+};
+
 
 
 export const updateUser = async (userId, data) => {
@@ -120,7 +136,7 @@ export const updateUser = async (userId, data) => {
 
 
 
-export const getUsers = async() => {
+export const getUsers = async () => {
     try {
         return await apiClient.get('/users')
     } catch (e) {
@@ -131,7 +147,7 @@ export const getUsers = async() => {
     }
 }
 
-export const getUserById = async(id) => {
+export const getUserById = async (id) => {
     try {
         const response = await apiClient.get(`/users/${id}`)
         return response.data
@@ -143,7 +159,7 @@ export const getUserById = async(id) => {
     }
 }
 
-export const deleteUser = async(userId) => {
+export const deleteUser = async (userId) => {
     try {
         return await apiClient.delete(`/users/${userId}`)
 
@@ -159,7 +175,7 @@ export const deleteUser = async(userId) => {
 const checkResponseStatus = (e) => {
     const responseStatus = e?.response?.status
 
-    if(responseStatus){
+    if (responseStatus) {
         (responseStatus === 401 || responseStatus === 403) && logout()
     }
 }

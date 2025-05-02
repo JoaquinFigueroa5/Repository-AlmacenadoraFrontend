@@ -26,7 +26,7 @@ const ListHeader = ({ children }) => {
 const SocialButton = ({ children, label, href }) => {
   return (
     <chakra.button
-      bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
+      bg={useColorModeValue('blackAlpha.100', 'blackAlpha.100')}
       rounded={'full'}
       w={8}
       h={8}
@@ -38,7 +38,7 @@ const SocialButton = ({ children, label, href }) => {
       justifyContent={'center'}
       transition={'background 0.3s ease'}
       _hover={{
-        bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
+        bg: useColorModeValue('blackAlpha.200', 'blackAlpha.200'),
       }}
     >
       <VisuallyHidden>{label}</VisuallyHidden>
@@ -50,8 +50,8 @@ const SocialButton = ({ children, label, href }) => {
 export default function Footer() {
   return (
     <Box
-      bg={useColorModeValue('gray.100', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}
+      bg={useColorModeValue('gray.900', 'gray.900')}
+      color={useColorModeValue('gray.200', 'gray.200')}
     >
       <Container maxW={'6xl'} py={10}>
         <Flex direction={{ base: 'column', md: 'row' }} align="center" justify="space-between" gap={10}>
@@ -112,13 +112,13 @@ export default function Footer() {
         >
           <Text>© 2025 Tu Empresa. Todos los derechos reservados</Text>
           <Stack direction={'row'} spacing={6}>
-            <SocialButton label={'Twitter'} href={'#'}>
+            <SocialButton label={'Twitter'} href={'https://x.com/JoFLeF'}>
               <FaTwitter />
             </SocialButton>
-            <SocialButton label={'YouTube'} href={'#'}>
+            <SocialButton label={'YouTube'} href={'https://youtu.be/xvFZjo5PgG0?si=LdDH14rtIck5OtX2'}>
               <FaYoutube />
             </SocialButton>
-            <SocialButton label={'Instagram'} href={'#'}>
+            <SocialButton label={'Instagram'} href={'https://www.instagram.com/jk.i.fg/'}>
               <FaInstagram />
             </SocialButton>
           </Stack>

@@ -85,15 +85,13 @@ export const UsersCards = ({
             console.error('Error en updateUser:', response.e.response?.data || response.e);
         }
 
-
-
     };
 
-    const handleDeleteSettings = async(oldData) => {
+    const handleDeleteSettings = async (oldData) => {
         console.log(oldData);
-        
+
         const response = await deleteUser(oldData.id);
-        if(response && !response.error){
+        if (response && !response.error) {
             handleCloseModal();
             window.location.reload();
         }
@@ -113,6 +111,12 @@ export const UsersCards = ({
                     boxShadow={'2xl'}
                     rounded={'md'}
                     overflow={'hidden'}
+                    transition="transform 0.3s ease, box-shadow 0.3s ease"
+                    _hover={{
+                        transform: 'scale(1.05)',
+                        boxShadow: '3xl',
+                    }}
+
                 >
                     <Image
                         h={'120px'}
@@ -120,6 +124,8 @@ export const UsersCards = ({
                         src={`https://picsum.photos/400/200?random=${id}`}
                         objectFit="cover"
                         alt={`Banner de ${name}`}
+
+
                     />
 
                     <Flex justify={'center'} mt={-12}>
@@ -130,7 +136,7 @@ export const UsersCards = ({
                         />
                     </Flex>
 
-                    <Box p={6}>
+                    <Box p={6} >
                         <Stack spacing={0} align={'center'} mb={5}>
                             <Heading fontSize={'2xl'} fontWeight={500}>
                                 {name} {surname}

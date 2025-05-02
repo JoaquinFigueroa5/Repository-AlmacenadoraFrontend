@@ -1,19 +1,38 @@
-
 import { lazy } from 'react';
-import { Settings } from './components/settings/Settings';
 
 const Auth = lazy(() => import('./pages/Auth'));
 const LandingPage = lazy(() => import('./pages/LandingPage'));
 const ViewUsers = lazy(() => import('./components/ViewUsers'));
-// import { ProductsPage } from './pages/products/ProductPage';
-const ProductsPage = lazy(() => import('./pages/products/ProductPage'))
+const ProductsPage = lazy(() => import('./pages/products/ProductPage'));
+const PrivateRoute = lazy(() => import('./components/PrivateRoute'));
+const UnauthorizedModal = lazy(() => import('./components/UnauthorizedModal'));
 
 const routes = [
     { path: '/', element: <Auth /> },
-    { path: '/dashboard', element: <LandingPage /> },
-    { path: '/products/*', element: <ProductsPage /> },
-    { path: '/users/*', element: <ViewUsers /> },
-    {path: '/users/:id', element: <ViewUsers /> }
-]
+    { path: '/unauthorized', element: <UnauthorizedModal /> },
+    {
+        path: '/dashboard/*',
+        element: <PrivateRoute allowedRoles={['ADMIN_ROLE', 'EMPLOYEE_ROLE']} />,
+        children: [
+            { path: '', element: <LandingPage /> }
+        ]
+    },
+    {
+      path: '/products/*',
+      element: <PrivateRoute allowedRoles={['ADMIN_ROLE']} />,
+      children: [
+        { path: '', element: <ProductsPage /> }
+      ]
+    },
+    {
+      path: '/users/*',
+      element: <PrivateRoute allowedRoles={['ADMIN_ROLE']} />,
+      children: [
+        { path: '', element: <ViewUsers /> },
+        { path: ':id', element: <ViewUsers /> }
+      ]
+    }
+  ];
+  
 
 export default routes

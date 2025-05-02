@@ -28,6 +28,12 @@ const inputs = [
         type: 'number'
     },
     {
+        field: 'category',
+        label: 'Product Category',
+        validationMessage: 'Please enter a valid category.',
+        type: 'text'
+    },
+    {
         field: 'image',
         label: 'Product Image URL',
         validationMessage: 'Please enter a valid image URL.',
@@ -57,6 +63,11 @@ export const ProductSettings = ({product, saveProductSettings}) => {
             isValid: true, // Assumed to be numeric, can validate if needed
             showError: false,
             value: product.stock
+        },
+        category: {
+            isValid: true,
+            showError: false,
+            value: product.category
         },
         image: {
             isValid: validateProductImage(product.image),
@@ -90,6 +101,9 @@ export const ProductSettings = ({product, saveProductSettings}) => {
             case 'stock':
                 isValid = value >= 0; // Basic check for stock
                 break;
+            case 'category':
+                isValid = true;
+                break;
             case 'image':
                 isValid = validateProductImage(value);
                 break;
@@ -115,6 +129,7 @@ export const ProductSettings = ({product, saveProductSettings}) => {
             description: formState.description.value,
             price: formState.price.value,
             stock: formState.stock.value,
+            categoria: formState.category.value,
             image: formState.image.value
         });
     };

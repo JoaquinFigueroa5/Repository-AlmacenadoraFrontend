@@ -13,7 +13,7 @@ function App() {
 
   return (
     <>
-      <ChakraProvider>
+      
         {/* <NavBar /> */}
         <Suspense fallback={ <Loading/> } >
           {element}
@@ -22,7 +22,6 @@ function App() {
           position='bottom-top-center'
           reverseOrder={false}
         />
-      </ChakraProvider>
     </>
   )
 }

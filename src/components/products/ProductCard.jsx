@@ -14,6 +14,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  useColorModeValue
 } from "@chakra-ui/react";
 
 export const ProductCard = ({ product, handleEditProduct, handleDeleteProduct }) => {
@@ -23,6 +24,10 @@ export const ProductCard = ({ product, handleEditProduct, handleDeleteProduct })
     onClose: onDeleteClose,
   } = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const bgStock = useColorModeValue('blue.900', 'blue.100')
+  const bgDesc = useColorModeValue('black', 'yellow.200')
+  const bgDate = useColorModeValue('gray.700', 'white')
 
   return (
     <>
@@ -54,12 +59,13 @@ export const ProductCard = ({ product, handleEditProduct, handleDeleteProduct })
             <Badge colorScheme="purple" width="fit-content">
               {product.category}
             </Badge>
-            <Text fontSize="md" color="green.500" mt={2}>
+            <Text fontSize="md" color="green.500" mt={2} fontWeight={"bold"} >
               Q{parseFloat(product.price.$numberDecimal).toFixed(2)}
             </Text>
             <Text
               fontSize="sm"
-              color={product.stock > 0 ? "teal.500" : "red.500"}
+              color={product.stock > 0 ? bgStock : "red.500"}
+              fontWeight={"bold"}
             >
               Stock: {product.stock}
             </Text>
@@ -87,22 +93,23 @@ export const ProductCard = ({ product, handleEditProduct, handleDeleteProduct })
               <Text fontSize="lg" fontWeight="bold">
                 {product.name}
               </Text>
-              <Badge colorScheme="purple" width="fit-content">
+              <Badge colorScheme="purple" width="fit-content" fontWeight={"bold"} >
                 {product.category}
               </Badge>
-              <Text fontSize="md" color="green.500">
+              <Text fontSize="md" color="green.500" fontWeight={"bold"} >
                 Q{parseFloat(product.price.$numberDecimal).toFixed(2)}
               </Text>
               <Text
                 fontSize="sm"
-                color={product.stock > 0 ? "teal.500" : "red.500"}
+                color={product.stock > 0 ? bgStock : "red.500"}
+                fontWeight={"bold"}
               >
                 Stock: {product.stock}
               </Text>
-              <Text fontSize="sm" color="black">
+              <Text fontSize="sm" color={bgDesc} fontWeight={"bold"} >
                 {product.description}
               </Text>
-              <Text fontSize="sm" color="gray.600">
+              <Text fontSize="sm" color={bgDate} fontWeight={"bold"} >
                 {product.entryDate}
               </Text>
             </Stack>
