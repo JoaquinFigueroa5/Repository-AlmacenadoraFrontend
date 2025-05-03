@@ -36,6 +36,7 @@ const MovimientosTableComponent = () => {
             : movimiento.employee?.name || "Empleado sin nombre",
         fecha: dayjs(movimiento.date).format('DD/MM/YYYY HH:mm:ss'),
         razon: movimiento.reason || "N/A",
+        destino: movimiento.destiny || "N/A",
       }));
       setTableData(formattedData);
       console.log("Estado de tableData (formateado):", formattedData);
@@ -57,6 +58,7 @@ const MovimientosTableComponent = () => {
             <Th>Empleado</Th>
             <Th>Fecha</Th>
             <Th>Razón</Th>
+            <Th>Destino</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -67,6 +69,7 @@ const MovimientosTableComponent = () => {
               <Td>{movimiento.empleado}</Td>
               <Td>{movimiento.fecha}</Td>
               <Td>{movimiento.razon}</Td>
+              <Td>{movimiento.destino}</Td>
             </Tr>
           ))}
         </Tbody>
