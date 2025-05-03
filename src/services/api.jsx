@@ -237,6 +237,50 @@ export const getTop3 = async() => {
     }
 }
 
+export const getClients = async(limite = 12, desde = 0) => {
+    try {
+        return await apiClient.get(`/clients?limite=${limite}&desde=${desde}`)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const saveClients = async(data) => {
+    try {
+        return await apiClient.post('/clients', data)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const updateClient = async(id, data) => {
+    try {
+        return await apiClient.put(`/clients/${id}`, data)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const deleteClient = async(id) => {
+    try {
+        return await apiClient.delete(`/clients/${id}`)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
 const checkResponseStatus = (e) => {
     const responseStatus = e?.response?.status
 

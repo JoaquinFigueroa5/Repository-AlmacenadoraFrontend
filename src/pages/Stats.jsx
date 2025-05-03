@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, useColorModeValue } from '@chakra-ui/react'
 import NavBar from '../components/NavBar';
 import BarListComponent from '../components/Stats/BarList';
 import StatsHeader from '../components/Stats/StatsHeader';
@@ -9,25 +9,25 @@ import TopList from '../components/Stats/TopList';
 import { Grid, GridItem } from "@chakra-ui/react"
 
 export const Stats = () => {
+
+  const bgBack = useColorModeValue('white', 'gray.700')
+
   return (
     <Box position="relative">
-      {/* NavBar con z-index más alto para que esté por encima */}
       <Box position="fixed" top="0" width="100%" zIndex="1000">
         <NavBar />
       </Box>
       
-      {/* Sidebar con z-index menor que NavBar */}
       <Box position="fixed" top="0" left="0" height="100vh" zIndex="900">
         <Sidebar />
       </Box>
 
-      {/* Contenido principal */}
       <Box 
-        bg="brand.fondo" 
+        bg={bgBack}
         minH="100vh" 
         w="100%" 
-        pt="60px" // Espacio para el NavBar
-        pl="210px" // Espacio para el Sidebar
+        pt="60px"
+        pl="210px"
       >
         <StatsHeader />
 

@@ -7,3 +7,4 @@ export { usePercentage } from "./usePercentage";
 export { useTotalClients } from "./useTotalCLientes";
 export	{ useEarnings } from "./useEarnings";
 export { useTopProduct } from "./useTopProduct";
+export { useClient } from "./useClients";

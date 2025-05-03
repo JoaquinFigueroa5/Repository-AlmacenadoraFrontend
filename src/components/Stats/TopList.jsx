@@ -52,7 +52,7 @@ import {
                 <Th>Fecha de Entrada</Th>
               </Tr>
             </Thead>
-            <Tbody>
+            <Tbody fontWeight='bold'>
               {top3Products.map((product, index) => (
                 <Tr key={index}>
                   <Td>{index + 1}</Td>

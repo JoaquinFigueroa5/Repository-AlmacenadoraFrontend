@@ -1,0 +1,162 @@
+import NavBar from "../NavBar";
+import { Clients } from "./Clients";
+import { useClient } from "../../shared/hooks/useClients";
+import {
+    useDisclosure,
+    Flex,
+    Button,
+    Text,
+    Box
+} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import ClientFormModal from "./ClientFormModal";
+import { deleteClient } from "../../services";
+import toast from "react-hot-toast";
+import { ClientSearch } from "./ClientSearch";
+
+const ClientsPage = () => {
+    const { getClients, clients, isFetching, total } = useClient();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const [selectedClient, setSelectedClient] = useState(null);
+    const [desde, setDesde] = useState(0);
+    const limite = 12;
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredClients, setFilteredClients] = useState([]);
+
+    useEffect(() => {
+        getClients({ limite, desde });
+    }, [desde]);
+
+    useEffect(() => {
+        if (searchTerm) {
+            setFilteredClients(
+                clients.filter(client => client.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            );
+        } else {
+            setFilteredClients(clients || []);
+        }
+    }, [searchTerm, clients]);
+
+    const handleEditClient = (client) => {
+        setSelectedClient(client);
+        onOpen();
+    };
+
+    const handleAddClient = () => {
+        setSelectedClient(null);
+        onOpen();
+    };
+
+    const handleDeleteClient = async (id) => {
+        let res = await deleteClient(id);
+
+        if (res?.error) {
+            return toast.error("Error al eliminar el cliente", {
+                style: {
+                    background: 'red',
+                    color: 'white',
+                    whiteSpace: 'pre-line',
+                }
+            });
+        }
+
+        toast.success('Cliente eliminado con éxito!', {
+            style: {
+                background: 'green',
+                color: 'white'
+            }
+        });
+
+        onClose();
+        await getClients({ limite, desde });
+    };
+
+    const handleSearch = async (term) => {
+        setSearchTerm(term);
+        if (term.trim()) {
+            await getClients({ limite: 0, desde: 0 });
+        } else {
+            await getClients({ limite, desde });
+        }
+    }
+
+    const handleClientSaved = async () => {
+        await getClients({ limite, desde });
+    };
+
+    const handlePrev = () => {
+        if (desde - limite >= 0) {
+            setDesde(desde - limite);
+        }
+    };
+
+    const handleNext = () => {
+        if (desde + limite < total) {
+            setDesde(desde + limite);
+        }
+    };
+
+    return (
+        <>
+            <NavBar />
+            <Flex
+                h="10vh"
+                justifyContent="flex-end"
+                alignItems="center"
+                px={8}
+            >
+                <Box p={6} width='500px'>
+                    <ClientSearch onSearch={handleSearch} />
+                </Box>
+
+                <Button
+                    px={4}
+                    fontSize="md"
+                    rounded="full"
+                    bg="gray.400"
+                    color="white"
+                    boxShadow="0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+                    _hover={{ bg: 'gray.500' }}
+                    _focus={{ bg: 'gray.500' }}
+                    onClick={handleAddClient}
+                >
+                    Agregar
+                </Button>
+            </Flex>
+            
+            {isFetching ? (
+                "Cargando clientes..."
+            ) : filteredClients.length > 0 ? (
+                <Clients
+                    clients={filteredClients}
+                    handleEditClient={handleEditClient}
+                    handleDeleteClient={handleDeleteClient}
+                />
+            ) : (
+                "No se encontraron clientes."
+            )}
+
+            <Flex justifyContent="center" alignItems="center" mt={6} gap={4}>
+                <Button onClick={handlePrev} isDisabled={desde === 0}>
+                    Anterior
+                </Button>
+                <Text>
+                    Página {Math.floor(desde / limite) + 1} de {Math.ceil(total / limite) || 1}
+                </Text>
+                <Button onClick={handleNext} isDisabled={desde + limite >= total}>
+                    Siguiente
+                </Button>
+            </Flex>
+
+            <ClientFormModal
+                isOpen={isOpen}
+                onClose={onClose}
+                clientSaved={handleClientSaved}
+                clientToEdit={selectedClient}
+            />
+        </>
+    );
+};
+
+export default ClientsPage;

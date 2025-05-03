@@ -9,7 +9,7 @@ const PieChartComponent = () => {
     getPercentage(); // Llama a la función para obtener los porcentajes al montar el componente
   }, [getPercentage]);
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  const COLORS = ['#A8C0BA', '#77867E', '#585441', '#D8D7D4'];
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {

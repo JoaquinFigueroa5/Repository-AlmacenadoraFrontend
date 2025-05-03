@@ -15,7 +15,7 @@ export const Users = ({ users }) => {
             <SimpleGrid columns={[1, 2, 3, 4]} spacing={6} p={6}  >
                 {users.map((c) => (
                     <UsersCards
-                        key={c.id}
+                        key={c._id}
                         id={c._id}
                         name={c.name}
                         surname={c.surname}

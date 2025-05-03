@@ -1,8 +1,11 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, useColorModeValue } from '@chakra-ui/react';
 import ProductList from './ProductList';
 
 const Sidebar = () => {
+
+  const bgBack = useColorModeValue('white', '#585441')
+
   return (
     <>
     <Box
@@ -11,7 +14,7 @@ const Sidebar = () => {
       left="0"
       w="220px"
       h="100vh"
-      bg="brand.primario"
+      bg={bgBack}
       p={3}
       overflowY="auto"
       zIndex={10}

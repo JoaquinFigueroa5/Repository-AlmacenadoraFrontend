@@ -3,7 +3,7 @@ import { Users } from "../users/Users";
 import { Settings } from "../settings/Settings";
 import {UsersCards} from "../users/UsersCards";
 
-export const Content = ({ users}) => {
+export const Content = ({ users, getUsers}) => {
     return (
         <>
             <Routes>

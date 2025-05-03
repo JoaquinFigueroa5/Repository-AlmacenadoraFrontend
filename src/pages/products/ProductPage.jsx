@@ -5,7 +5,6 @@ import { ProductSearch } from "../../components/products/ProductSearch";
 import { Products } from "../../components/products/Product";
 import { ProductFormModal } from "../../components/products/ProductFormModal";
 import NavBar from "../../components/NavBar";
-import Footer from "../../components/dashboard/Footer";
 import "./ProductPage.css";
 
 const ProductsPage = () => {
