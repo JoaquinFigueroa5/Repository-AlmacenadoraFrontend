@@ -9,7 +9,6 @@ export const UserProvider = ({ children }) => {
     const fetchUser = useCallback(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
         const token = storedUser?.token;
-        console.log(token)
         if (!token) {
             setUser(null);
             return;

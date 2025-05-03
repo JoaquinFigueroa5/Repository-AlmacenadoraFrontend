@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { Box } from '@chakra-ui/react';
 import Mtable from '../components/Mtable';
 import { Entry } from '../components/Movimientos/Entry';
-import { Out } from '../components/Movimientos/Out';
+
 import { UserContext } from '../context/UserContext';
 
 export const Movimientos = () => {

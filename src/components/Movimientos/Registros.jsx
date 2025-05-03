@@ -47,6 +47,7 @@ const MovimientosTableComponent = () => {
   return (
     <Box p={4}>
       <Heading as="h2" mb={4}>Movimientos de Productos</Heading>
+      
       <Table variant="striped" colorScheme="teal">
         <TableCaption>Movimientos registrados en el sistema</TableCaption>
         <Thead>
