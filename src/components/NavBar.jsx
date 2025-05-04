@@ -110,6 +110,7 @@ export default function NavBar() {
               <NavLink to="/information">Information</NavLink>
               <NavLink to="/clients">Clients</NavLink>
               <NavLink to="/providers">Providers</NavLink>
+              <NavLink to="/category">Category</NavLink>
             </HStack>
           ) : (
             <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>

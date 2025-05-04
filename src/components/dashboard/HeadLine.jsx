@@ -13,7 +13,7 @@ import {
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
-const MotionBox = motion(Box)
+const MotionBox = motion.create(Box)
 
 function AnimatedCard({ image, alt, title, description }) {
   const { ref, inView } = useInView({ triggerOnce: false, threshold: 0.3 })

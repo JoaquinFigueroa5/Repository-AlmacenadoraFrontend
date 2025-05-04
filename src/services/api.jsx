@@ -281,6 +281,50 @@ export const deleteClient = async(id) => {
     }
 }
 
+export const getCategory = async(limite = 10, desde = 0) => {
+    try {
+        return await apiClient.get(`/categories?limite=${limite}&desde=${desde}`)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const saveCategory = async(data) => {
+    try {
+        return await apiClient.post('/categories', data)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const updateCategory = async(id, data) => {
+    try {
+        return await apiClient.put(`/categories/${id}`, data)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const deleteCategory = async(id) => {
+    try {
+        return await apiClient.delete(`/categories/${id}`)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
 const checkResponseStatus = (e) => {
     const responseStatus = e?.response?.status
 

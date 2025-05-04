@@ -7,7 +7,8 @@ const ProductsPage = lazy(() => import('./pages/products/ProductPage'));
 const PrivateRoute = lazy(() => import('./components/PrivateRoute'));
 const UnauthorizedModal = lazy(() => import('./components/UnauthorizedModal'));
 const Stats = lazy(() => import('./pages/Stats'));
-const ClientsPage = lazy(() => import('./components/clients/ClientPage'))
+const ClientsPage = lazy(() => import('./components/clients/ClientPage'));
+const CategoryPage = lazy(() => import('./components/category/CategoryPage'));
 
 const routes = [
     { path: '/', element: <Auth /> },
@@ -46,6 +47,13 @@ const routes = [
         element: <PrivateRoute allowedRoles={['ADMIN_ROLE', 'EMPLOYEE_ROLE']} />,
         children: [
             {path: '', element: <ClientsPage /> }
+        ]
+    },
+    {
+        path: '/category/*',
+        element: <PrivateRoute allowedRoles={['ADMIN_ROLE']} />,
+        children: [
+            { path: '', element: <CategoryPage /> }
         ]
     }
   ];

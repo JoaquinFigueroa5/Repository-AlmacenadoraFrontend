@@ -8,3 +8,4 @@ export { useTotalClients } from "./useTotalCLientes";
 export	{ useEarnings } from "./useEarnings";
 export { useTopProduct } from "./useTopProduct";
 export { useClient } from "./useClients";
+export { useCategories } from "./useCategories";
