@@ -79,14 +79,6 @@ export const getCategories = async () => {
     }
 };
 
-export const getProviders = async () => {
-    try {
-        return await apiClient.get("/provider");
-    } catch (e) {
-        return { error: true, e };
-    }
-};
-
 export const saveProducts = async (data) => {
     try {
         return await apiClient.post('/products', data)
@@ -317,6 +309,47 @@ export const updateCategory = async(id, data) => {
 export const deleteCategory = async(id) => {
     try {
         return await apiClient.delete(`/categories/${id}`)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const getProviders = async () => {
+    try {
+        return await apiClient.get("/provider");
+    } catch (e) {
+        return { error: true, e };
+    }
+}
+
+export const saveProviders = async(data) => {
+    try {
+        return await apiClient.post('/provider', data)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const updateProviders = async(id, data) => {
+    try {
+        return await apiClient.put(`/provider/${id}`, data)
+    } catch (e) {
+        return {
+            error: true,
+            e
+        }
+    }
+}
+
+export const deleteProvider = async(id) => {
+    try {
+        return await apiClient.delete(`/provider/${id}`)
     } catch (e) {
         return {
             error: true,

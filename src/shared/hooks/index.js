@@ -9,3 +9,5 @@ export	{ useEarnings } from "./useEarnings";
 export { useTopProduct } from "./useTopProduct";
 export { useClient } from "./useClients";
 export { useCategories } from "./useCategories";
+export { useProviders } from "./useProviders";
+export { useProvidersUtils } from "./useProvidersUtils";

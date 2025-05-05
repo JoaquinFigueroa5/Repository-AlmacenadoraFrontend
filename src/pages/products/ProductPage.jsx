@@ -5,6 +5,7 @@ import { ProductSearch } from "../../components/products/ProductSearch";
 import { Products } from "../../components/products/Product";
 import { ProductFormModal } from "../../components/products/ProductFormModal";
 import NavBar from "../../components/NavBar";
+import toast from "react-hot-toast"; // Importar toast
 import "./ProductPage.css";
 
 const ProductsPage = () => {
@@ -18,9 +19,46 @@ const ProductsPage = () => {
     getProducts();
   }, []);
 
-
   useEffect(() => {
-    console.log('Products loaded:', products);  // Verifica que allProducts tiene los productos correctos
+    if (products) {
+      products.forEach(product => {
+        if (product.expirationDate) {
+          const today = new Date();
+          const exp = new Date(product.expirationDate);
+          const diffDays = Math.ceil((exp - today) / (1000 * 60 * 60 * 24));
+
+          if (diffDays > 0 && diffDays <= 7) {
+            toast.error(`¡El producto ${product.name} caduca en ${diffDays} día(s)!`, {
+              style: {
+                background: 'orange',
+                color: 'white',
+              }
+            });
+          }
+        }
+      });
+    }
+
+    if (products) {
+      products.forEach(product => {
+        if (product.stock) {
+
+          const validateStock = product.stock;
+
+          if (validateStock <= 10) {
+            toast.error(`¡El producto ${product.name} posee un stock de ${product.stock}, cuidado! `, {
+              style: {
+                background: 'orange',
+                color: 'white',
+              },
+              duration: 5000
+            })
+          }
+
+        }
+      })
+    }
+
   }, [products]);
 
   useEffect(() => {
@@ -35,12 +73,12 @@ const ProductsPage = () => {
 
   const handleOpenAddModal = () => {
     setProductToEdit(null);
-    onOpen(); 
+    onOpen();
   };
 
   const handleEditProduct = (product) => {
-    setProductToEdit(product); 
-    onOpen(); 
+    setProductToEdit(product);
+    onOpen();
   };
 
   const handleSearch = (term) => {
@@ -53,14 +91,14 @@ const ProductsPage = () => {
       <Box p={4} width="100%" maxWidth="1700px" mx="auto">
         <Flex
           className="products-header"
-          direction={{ base: "column", md: "row" }} 
+          direction={{ base: "column", md: "row" }}
           align={{ base: "flex-start", md: "center" }}
           gap={{ base: 2, md: 4 }}
           mt={4}
           mb={4}
         >
           <Heading className="title" mb={{ base: 2, md: 0 }}>Nuestros Productos</Heading>
-          <Spacer /> 
+          <Spacer />
           <Button colorScheme="teal" onClick={handleOpenAddModal}>
             ¡Registrar nuevo producto!
           </Button>

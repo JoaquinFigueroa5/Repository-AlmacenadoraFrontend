@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import ProvidersPage from './components/providers/ProvidersPage';
 
 const Auth = lazy(() => import('./pages/Auth'));
 const LandingPage = lazy(() => import('./pages/LandingPage'));
@@ -55,6 +56,13 @@ const routes = [
         children: [
             { path: '', element: <CategoryPage /> }
         ]
+    },
+    {
+      path: '/providers/*',
+      element: <PrivateRoute allowedRoles={['ADMIN_ROLE']} />,
+      children: [
+        { path: '', element: <ProvidersPage /> }
+      ]
     }
   ];
   
