@@ -1,5 +1,4 @@
 import { lazy } from 'react';
-import ProvidersPage from './components/providers/ProvidersPage';
 
 const Auth = lazy(() => import('./pages/Auth'));
 const LandingPage = lazy(() => import('./pages/LandingPage'));
@@ -10,6 +9,8 @@ const UnauthorizedModal = lazy(() => import('./components/UnauthorizedModal'));
 const Stats = lazy(() => import('./pages/Stats'));
 const ClientsPage = lazy(() => import('./components/clients/ClientPage'));
 const CategoryPage = lazy(() => import('./components/category/CategoryPage'));
+const ProvidersPage = lazy(() => import('./components/providers/ProvidersPage'));
+const Movimientos = lazy(() => import('./pages/Movimientos'));
 
 const routes = [
     { path: '/', element: <Auth /> },
@@ -63,8 +64,14 @@ const routes = [
       children: [
         { path: '', element: <ProvidersPage /> }
       ]
+    },
+    {
+      path: '/movimientos/*',
+      element: <PrivateRoute allowedRoles={['ADMIN_ROLE', 'EMPLOYEE_ROLE']} />,
+      children: [
+        { path: '', element: <Movimientos /> }
+      ]
     }
   ];
-  
 
 export default routes

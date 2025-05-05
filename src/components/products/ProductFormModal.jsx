@@ -115,7 +115,7 @@ export const ProductFormModal = ({ isOpen, onClose, productToEdit, onProductSave
     }
 
     if (res?.error) {
-      return toast.error("Error al guardar producto", {
+      return toast.error(res.msg, {
         style: {
           background: 'red',
           color: 'white',

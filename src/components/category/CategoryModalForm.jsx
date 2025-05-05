@@ -59,7 +59,7 @@ const CategoryFormModal = ({ isOpen, onClose, categorySaved, categoryToEdit }) =
         }        
 
         if (res?.error) {
-            return toast.error("Error al guardar la categoria", {
+            return toast.error(res.msg, {
                 style: {
                     background: 'red',
                     color: 'white',

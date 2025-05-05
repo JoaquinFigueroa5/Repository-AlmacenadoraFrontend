@@ -88,7 +88,7 @@ export const ProviderFormModel = ({ isOpen, onClose, providerToEdit, handleDelet
 
         if (res?.error) {
             console.error(res.e);
-            return toast.error('Error al guardar al proveedor');
+            return toast.error(res.msg);
         }
 
         toast.success(providerToEdit ? 'Proveedor actualizado con éxito!' : 'Proveedor guardado con éxito!');

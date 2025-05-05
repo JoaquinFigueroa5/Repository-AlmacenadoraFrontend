@@ -1,3 +1,5 @@
+export { useEntry } from "./useGetMovementsEntrada";
+export { useSalida } from "./useGetMovementsSalida";
 export { useRegister } from "./useRegister";
 export { useLogin } from "./useLogin";
 export { logout } from "./useLogout";
@@ -11,3 +13,4 @@ export { useClient } from "./useClients";
 export { useCategories } from "./useCategories";
 export { useProviders } from "./useProviders";
 export { useProvidersUtils } from "./useProvidersUtils";
+export { useMovimientos } from "./useGetMovements";

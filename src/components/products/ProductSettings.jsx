@@ -60,7 +60,7 @@ export const ProductSettings = ({product, saveProductSettings}) => {
             value: product.price
         },
         stock: {
-            isValid: true, // Assumed to be numeric, can validate if needed
+            isValid: true,
             showError: false,
             value: product.stock
         },

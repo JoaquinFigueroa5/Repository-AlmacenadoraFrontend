@@ -29,8 +29,10 @@ export const useClient = () => {
     const addClient = async (newClient) => {
         const result = await saveProductsRequest(newClient);
 
-        if (result.error) {
-            return toast.error(result.e?.response?.data?.msg || 'No se pudo guardar el cliente', {
+        if (result?.error) {
+            console.log(result.msg);
+            
+            return toast.error(result.msg || 'No se pudo guardar el cliente', {
                 style: {
                     background: 'red',
                     color: 'white'

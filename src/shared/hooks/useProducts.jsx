@@ -10,9 +10,7 @@ export const useProduct = () => {
     setIsFetching(true); 
 
     const productsData = await getProductsRequest();
-    console.log('productsData ', productsData); 
-    
-
+  
     setIsFetching(false); 
 
     if (productsData.error) {

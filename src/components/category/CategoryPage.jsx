@@ -52,7 +52,7 @@ const CategoryPage = () => {
         let res = await deleteCategory(id);
 
         if (res?.error) {
-            return toast.error("Error al eliminar la categoria", {
+            return toast.error(res.msg, {
                 style: {
                     background: 'red',
                     color: 'white',

@@ -52,7 +52,7 @@ const ClientsPage = () => {
         let res = await deleteClient(id);
 
         if (res?.error) {
-            return toast.error("Error al eliminar el cliente", {
+            return toast.error(res.msg, {
                 style: {
                     background: 'red',
                     color: 'white',

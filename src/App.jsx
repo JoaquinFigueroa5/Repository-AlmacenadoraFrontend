@@ -1,12 +1,10 @@
 import { useRoutes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Toaster } from 'react-hot-toast';
-import NavBar from './components/NavBar';
-import routes from './Routes';
 import { Suspense } from 'react';
 import Loading from './components/Loading';
+import routes from './Routes';
 import theme from './resources/index'
-
 
 function App() {
 

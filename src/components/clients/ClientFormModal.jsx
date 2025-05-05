@@ -100,7 +100,7 @@ const ClientFormModal = ({ isOpen, onClose, clientSaved, clientToEdit }) => {
         }
 
         if (res?.error) {
-            return toast.error("Error al guardar el cliente", {
+            return toast.error(res.msg , {
                 style: {
                     background: 'red',
                     color: 'white',

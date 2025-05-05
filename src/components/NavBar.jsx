@@ -106,7 +106,7 @@ export default function NavBar() {
             <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>
               <NavLink to="/users">Users</NavLink>
               <NavLink to="/products">Products</NavLink>
-              <NavLink to="/team">Movements</NavLink>
+              <NavLink to="/movimientos">Movements</NavLink>
               <NavLink to="/information">Information</NavLink>
               <NavLink to="/clients">Clients</NavLink>
               <NavLink to="/providers">Providers</NavLink>
@@ -114,7 +114,7 @@ export default function NavBar() {
             </HStack>
           ) : (
             <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>
-              <NavLink to="/dashboard">Movements</NavLink>
+              <NavLink to="/movimientos">Movements</NavLink>
               <NavLink to="/clients">Clients</NavLink>
             </HStack>
           )}
