@@ -1,18 +1,23 @@
 import { useNavigate } from "react-router";
 import { UsersCards } from "./UsersCards";
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid, Box } from "@chakra-ui/react";
 import Footer from "../dashboard/Footer";
 
 export const Users = ({ users }) => {
     const navigate = useNavigate();
 
     const handleNavigateToUser = (id) => {
-        navigate(`/users/${id}`)
-    }
+        navigate(`/users/${id}`);
+    };
 
     return (
-        <>
-            <SimpleGrid columns={[1, 2, 3, 4]} spacing={6} p={6}  >
+        <Box
+            minH="100vh"
+            bgGradient="linear(to-br, rgba(0, 0, 0, 0),rgba(74, 21, 21, 0.35))"
+            px={6}
+            py={8}
+        >
+            <SimpleGrid columns={[1, 2, 3, 4]} spacing={6}>
                 {users.map((c) => (
                     <UsersCards
                         key={c._id}
@@ -25,12 +30,9 @@ export const Users = ({ users }) => {
                         role={c.role}
                         password={c.password}
                         navigateToUserHandler={handleNavigateToUser}
-                        
                     />
                 ))}
             </SimpleGrid>
-            <Footer />
-        </>
-
-    )
-}
+        </Box>
+    );
+};

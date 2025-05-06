@@ -73,7 +73,7 @@ function ProvidersRow({ provider, handleEditProvider, onViewProducts }) {
           <Button
             variant="link"
             onClick={(e) => {
-              e.stopPropagation(); // Evita que se dispare el evento del TR
+              e.stopPropagation();
               onViewProducts(provider);
             }}
           >

@@ -90,7 +90,7 @@ function StatsHeader() {
               <Stat>
                 <StatLabel>Ingresos totales</StatLabel>
                 <HStack>
-                  <StatNumber>${earnings ?? 0}</StatNumber>
+                  <StatNumber>Q{earnings ?? 0}</StatNumber>
                   <Badge colorScheme="green">
                     <HStack spacing={1}>
                       <TriangleUpIcon boxSize={3} />

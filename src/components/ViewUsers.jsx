@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import { Content } from "./dashboard/Content";
 import { useUsers } from "../shared/hooks/useUsers";
 import { useUserDetails } from "../shared/hooks/useUserDetails";
+import Footer from "./dashboard/Footer";
 import Loading from "./Loading";
 
 const ViewUsers = () => {
@@ -21,6 +22,7 @@ const ViewUsers = () => {
         <>
             <NavBar />
             <Content users={allUsers} getUsers={getUsers} />
+            <Footer />
         </>
     )
 }
