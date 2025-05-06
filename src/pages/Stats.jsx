@@ -6,6 +6,7 @@ import PieChart from '../components/Stats/PieChart';
 import Sidebar from '../components/Stats/Sidebar';
 import TopProductCard from '../components/Stats/TopProductCard';
 import TopList from '../components/Stats/TopList';
+import Footer from '../components/dashboard/Footer';
 import { Grid, GridItem } from "@chakra-ui/react"
 
 export const Stats = () => {
@@ -70,6 +71,7 @@ export const Stats = () => {
         </Box>
       </Box>
     </Box>
+    
   );
 };
 
