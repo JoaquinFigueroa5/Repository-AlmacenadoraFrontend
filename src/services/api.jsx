@@ -133,7 +133,10 @@ export const updateUser = async (userId, data) => {
         const response = await apiClient.put(`/users/${userId}`, data);
         return response;
     } catch (e) {
-        const msg = e.response?.data?.msg || 'Error desconocido';
+        const errorResponse = e.response?.data;
+        const msg = errorResponse?.msg || errorResponse?.errors?.[0]?.msg || 'Error desconocido';
+        console.log(errorResponse?.errors?.[0]?.msg);
+        
         return {
             error: true,
             msg,

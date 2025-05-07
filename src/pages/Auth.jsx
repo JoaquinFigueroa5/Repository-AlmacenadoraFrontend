@@ -4,7 +4,7 @@ import { Register } from '../components/Register'
 import { Box } from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const MotionBox = motion(Box)
+const MotionBox = motion.create(Box)
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true)

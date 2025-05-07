@@ -138,13 +138,14 @@ const ClientsPage = () => {
                         rounded="full"
                         bg="gray.400"
                         color="white"
-                        boxShadow="0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+                        boxShadow="0px 4px 10px rgba(0, 0, 0, 0.3), 0px 2px 4px rgba(0, 0, 0, 0.2)"
                         _hover={{ bg: 'gray.500' }}
                         _focus={{ bg: 'gray.500' }}
                         onClick={handleAddClient}
                     >
                         Agregar
                     </Button>
+
                 </Flex>
 
                 {isFetching ? (
