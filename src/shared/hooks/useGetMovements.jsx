@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { getMovimientos as getMovimientosRequest } from "../../services/api";
+import { getMovimientos as getMovimientosRequest, getMovimientosByDate } from "../../services/api";
 import dayjs from "dayjs";
 
 export const useMovimientos = () => {
@@ -9,12 +9,15 @@ export const useMovimientos = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
 
-  const getMovimientos = async () => {
+  const getMovimientos = async ({ startDate, endDate } = {}) => {
     setIsFetching(true);
     setError(null);
 
     try {
-      const res = await getMovimientosRequest();
+      const res = startDate && endDate
+        ? await getMovimientosByDate(startDate, endDate)
+        : await getMovimientosRequest();
+
       setIsFetching(false);
 
       if (res.error) {
@@ -38,6 +41,8 @@ export const useMovimientos = () => {
               : movimiento.employee?.name || "Empleado sin nombre",
           fecha: dayjs(movimiento.date).format("DD/MM/YYYY HH:mm:ss"),
           razon: movimiento.reason || "N/A",
+          destino: movimiento.destiny || "N/A",
+          tipo: (!movimiento.reason && !movimiento.destiny) ? "Entrada" : "Salida"
         }));
         setTableData(formatted);
       } else {

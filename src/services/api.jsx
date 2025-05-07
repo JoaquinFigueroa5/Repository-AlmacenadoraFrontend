@@ -432,6 +432,20 @@ export const getMovimientos = async () => {
     }
 }
 
+export const getMovimientosByDate = async (startDate, endDate) => {
+    try {
+        const url = `/movements/inventoryMovements?startDate=${startDate}&endDate=${endDate}`;
+        return await apiClient.get(url);
+    } catch (e) {
+        const msg = e.response?.data?.msg || 'Error desconocido';
+        return {
+            error: true,
+            msg,
+            e,
+        };
+    }
+};
+
 export const getMovimientoEntrada = async (data) => {
     try {
         return await apiClient.post('/movements/registerEntry', data);
